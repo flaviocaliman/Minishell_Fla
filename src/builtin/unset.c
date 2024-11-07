@@ -6,7 +6,7 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 20:22:03 by caliman           #+#    #+#             */
-/*   Updated: 2024/09/10 16:18:47 by caliman          ###   ########.fr       */
+/*   Updated: 2024/10/29 21:19:13 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ lista encadeada de variáveis de ambiente:
 3. Se o nó não for encontrado, exibe uma mensagem de erro.
 4. Remove o nó da lista encadeada.
 5. Libera a memória associada ao nó removido.
+6. "unset with NO OPTIONS"
 */
 void ft_unset(t_program *pgr, char **line)
 {

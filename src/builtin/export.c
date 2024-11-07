@@ -6,7 +6,7 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 23:05:06 by caliman           #+#    #+#             */
-/*   Updated: 2024/09/10 16:18:31 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/05 19:15:44 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void list_exp_var(t_program *pgr)
 	}
 }
 
-// Função para exportar uma variável de ambiente. Adiona ou atualiza
+// Função para exportar uma variável de ambiente. Adiciona ou atualiza
 // uma variável de ambiente na lista encadeada.
 void env_export(t_program *pgr, char *name, char *value, int visible)
 {

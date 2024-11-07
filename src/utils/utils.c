@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 10:38:37 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/09/09 17:45:35 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:59:08 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,29 @@ int ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
+
+char	*ft_strndup(const char *s, size_t size)
+{
+	char	*str;
+	size_t	i;
+	size_t	len;
+
+	if (size > ft_strlen(s))
+		len = ft_strlen(s);
+	else
+		len = size;
+	str = malloc(len * sizeof(char) + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = ((char *)s)[i];
+		i++;
+	}
+	str[i] = 0;
+	return (str);
 }
 
 /*t_command *ft_newnode(char *str, t_type token)
@@ -37,17 +60,22 @@ int ft_strcmp(const char *s1, const char *s2)
 	return (new);
 }*/
 
-void	*ft_realloc(void *ptr, size_t size)
+void *ft_realloc(void *ptr, size_t original_size, size_t new_size)
 {
-	void *new;
+	void *new_ptr;
 
-	new = malloc(size);
-	if (!new)
-		return (NULL);
+	if (new_size == 0)
+	{
+		free(ptr);
+		return NULL;
+	}
+	new_ptr = malloc(new_size);
+	if (!new_ptr)
+		return NULL;
 	if (ptr)
 	{
-		ft_memcpy(new, ptr, size);
+		ft_memcpy(new_ptr, ptr, original_size);
 		free(ptr);
 	}
-	return (new);
+	return new_ptr;
 }

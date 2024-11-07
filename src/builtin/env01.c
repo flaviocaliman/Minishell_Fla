@@ -6,7 +6,7 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:00:03 by caliman           #+#    #+#             */
-/*   Updated: 2024/09/10 16:18:18 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/05 20:14:09 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void ft_env(t_program *pgr)
 		}
 		else
 		{
-			error(RED, ERROR_ENV_DIRECTORY, NULL, 1);
+			print_error(ERROR_ENV_DIRECTORY);
 		}
 		envp = envp->next;
 	}
@@ -59,6 +59,8 @@ t_envp *new_envp_node(char *name, char *value)
 		return (NULL);
 	envp->name = ft_strdup(name);
 	envp->value = ft_strdup(value);
+	envp->full = NULL;
+	envp->visible = NULL;
 	envp->next = NULL;
 	return (envp);
 }

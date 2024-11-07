@@ -6,7 +6,7 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 20:09:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/09/10 16:18:04 by caliman          ###   ########.fr       */
+/*   Updated: 2024/09/20 11:20:00 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,106 @@
 
 // Função que exibe uma string na saída padrão. Com ou sem
 // quebra de linha (-n).
-void ft_echo(char **line)
+
+void print_args(char **str, int i)
 {
-	int i;
-	
-	i = 1;
-	if (line[0] && !ft_strcmp(line[0], "-n"))
-		i++;
-	while (line[i])
+	int 	j;
+
+	j = 0;
+	while (*str)
 	{
-		printf("%s", line[i]);
-		if (line[i + 1])
-			printf(" ");
-		i++;
+		if (str[i] == NULL)
+            break;
+		if (str[i][j] != '\0')
+		{
+			if (str[i][j] == '"')
+			{
+				while (str[i][j] == '"')
+					j++;
+			}
+			else
+				write(1, &str[i][j++], 1);
+		}
+		else
+		{
+			if (str[i + 1] != NULL)
+				write(1, " ", 1);
+			i++;
+			j = 0;
+		}
 	}
-	if (!line[0] || ft_strcmp(line[0], "-n") != 0)
-		printf("\n");
 }
+
+void ft_echo(char **cmd)
+{
+	char	**str;
+	int 	n;
+	int 	i;
+	
+	i = 0;
+	n = 0;
+	if (cmd == NULL || cmd[0] == NULL)
+        return;
+	if (ft_strncmp(cmd[0], "echo -n", 7) == 0)
+		n = 1;
+	str = ft_split(cmd[0], ' ');
+	if (str == NULL)
+        return;
+	i++;
+	if (n == 1)
+		i++;
+	print_args(str, i);
+	if (n == 0)
+		write(1, "\n", 1);
+	free_array(str);
+}
+/*
+void ft_echo(char **cmd)
+{
+	char	**str;
+	int 	n;
+	int 	i;
+	int 	j;
+
+	j = 0;
+	i = 0;
+	n = 0;
+	if (cmd == NULL || cmd[0] == NULL)
+        return;
+	if (ft_strncmp(cmd[0], "echo -n", 7) == 0)
+		n = 1;
+	str = ft_split(cmd[0], ' ');
+	if (str == NULL)
+        return;
+	i++;
+	if (n == 1)
+		i++;
+	while (*str)
+	{
+		if (str[i] == NULL)
+            break;
+		if (str[i][j] != '\0')
+		{
+			if (str[i][j] == '"')
+			{
+				while (str[i][j] == '"')
+					j++;
+			}
+			else
+			{
+				write(1, &str[i][j], 1);
+				j++;
+			}
+		}
+		else
+		{
+			write(1, " ", 1);
+			i++;
+			j = 0;
+		}
+	}
+	if (n == 1)
+		write(1, "\n", 1);
+	free_array(str);
+}
+*/

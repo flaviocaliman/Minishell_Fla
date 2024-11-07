@@ -6,7 +6,7 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:53:46 by caliman           #+#    #+#             */
-/*   Updated: 2024/09/10 16:18:24 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/05 21:38:38 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 // Função para liberar a memória alocada para
 // a estrutura t_program.
-void free_program(t_program *pgr)
+
+void free_pgr(t_program *pgr)
 {
 	t_envp *envp;
 	t_envp *temp;
@@ -51,25 +52,30 @@ static bool ft_isnumber(char *str)
 }
 
 // Função para sair do shell.
-void ft_exit(t_program *pgr, char **line)
+void ft_exit(t_program *mini, char **cmd)
 {
 	int i;
 
 	i = 0;
-	if (line[1])
+	if (cmd[0])
 	{
-		if (line[2])
-			return (error(RED, ERROR_EXIT_ARGS, NULL, 1));
-		while (line[1][i])
+		if (cmd[2])
 		{
-			if (!ft_isnumber(line[1][i]))
-				return (error(RED, ERROR_EXIT_DIGIT, NULL, 1));
-			i++;
+			print_error(ERROR_EXIT_ARGS);
+			return;
 		}
-		g_exit_status = ft_atoi(line[1]) % 256;
+		if (cmd[1])
+		{
+			while (cmd[1][i])
+			{
+				if (!ft_isnumber(cmd[1]))
+				{
+					print_error(ERROR_EXIT_DIGIT);
+					return;
+				}
+				i++;
+			}
+		}	
 	}
-	else
-		g_exit_status = 0;
-	free_program(pgr);
-	exit(g_exit_status);
+	free_pgr(mini);
 }

@@ -6,7 +6,7 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/09/10 21:03:19 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/05 20:54:28 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,11 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <errno.h>
-# include <string.h>
-#include "libft.h"
-
-//Flávio ->
-
-#include <stdbool.h>
-
-# define ERROR_CD_ARGS "cd: too many arguments"
-# define ERROR_CD_HOME "cd: HOME not set"
-# define ERROR_CD_OLDPWD "cd: OLDPWD not set"
-# define ERROR_CD_DIRECTORY "cd: no such file or directory"
-# define ERROR_PWD_DIRECTORY "pwd: couldn't get current directory"
-# define ERROR_ENV_DIRECTORY "emv: no such file or directory"
-# define ERROR_UNSET_ARGS "unset: invalid number of arguments"
-# define ERROR_UNSET_VAR "unset: variable not found"
-# define ERROR_EXIT_ARGS "exit: too many arguments"
-# define ERROR_EXIT_DIGIT "exit: numeric argument required"
-
-# define RED "\033[0;31m"
-
-# define MAXARGS 50
-
-//Flávio <-
+# include <error.h>
+# include "libft.h"
 
 # define STDIN 0
 # define STDOUT 1
@@ -56,15 +37,24 @@
 # define ON 0
 # define OFF 1
 
-# define EXEC 10
-# define REDIR 11
-# define HERE_DOC 12
-# define APPEND 13
-# define PIPE 14
+// Flávio ->
 
-//Flávio ->
+# define MAXARGS 50
 
-// envp linked list
+# define ERROR_TITLE "minishell: "
+# define ERROR_CD_ARGS "cd: too many arguments"
+# define ERROR_CD_HOME "cd: HOME not set"
+# define ERROR_CD_DIRECTORY "cd: no such file or directory"
+# define ERROR_CD_OLDPWD "cd: OLDPWD not set"
+# define ERROR_UNSET_ARGS "unset: invalid number of arguments"
+# define ERROR_UNSET_VAR "unset: variable not found"
+# define ERROR_PWD_DIRECTORY "pwd: Couldn't get current directory"
+# define ERROR_ENV_DIRECTORY "env: no such file or directory"
+# define ERROR_EXIT_ARGS "exit: too many arguments"
+# define ERROR_EXIT_DIGIT "exit: numeric argument required"
+
+extern int g_exit_status;
+
 typedef struct s_envp
 {
 	char			*name;
@@ -74,40 +64,7 @@ typedef struct s_envp
 	struct s_envp	*next;
 }	t_envp;
 
-typedef struct s_command
-{
-	int				type;
-}	t_command;
-
-typedef struct s_exec
-{
-	int				type;
-	char			*argv[MAXARGS];
-}	t_exec;
-
-typedef struct s_redir
-{
-	int				type;
-	char			*file;
-	int				fd;
-}	t_redir;
-
-typedef struct s_pipe
-{
-	int				type;
-	t_command		*left;
-	t_command		*right;
-}	t_pipe;
-
-typedef struct s_heredoc
-{
-	int				type;
-	char			*delimiter;
-	char			*content;
-}	t_heredoc;
-
-//Flávio <-
-
+// Flávio <-
 
 //types of commands
 /*typedef enum e_type
@@ -120,18 +77,18 @@ typedef struct s_heredoc
 }	t_type;*/
 
 typedef struct s_input_organize {
-	char *input_file; // <
-	char *output_file; // >
-	char *append_file; // >>
-	char *heredoc_delimiter; // <<
-	char *cmds; // pipe
+	int		pipes;
+	char	*input_file;
+	char	*output_file;
+	char	*append_file;
+	char	*heredoc_delimiter;
+	char	**cmd_split;
 } t_input_organize;
 
 //commands struct
 /*typedef struct s_command
 {
 	char			*cmd;
-	char			*expansion;
 	char			**args;
 	t_type			token;
 	struct s_command	*next;
@@ -146,17 +103,10 @@ typedef struct s_program
 	char			*pwd;
 	char			*old_pwd;
 	int				loop;
-	t_envp			**envp;
-	t_command		*command;
+	//t_command		*commands;
+	//Flavio
+	t_envp			*envp;
 }	t_program;
-
-
-//Flávio ->
-
-extern int g_exit_status;
-
-//Flávio <-
-
 
 //clean/clean.c
 void	free_array(char **array);
@@ -164,7 +114,7 @@ void	free_organize(t_input_organize *program);
 void	free_program(t_program *mini, t_input_organize *program);
 
 //initialize/init.c
-int		*save_path(t_program *mini, char **envp);
+char	**save_path(t_program *mini, char **envp);
 void	init_organize(t_input_organize *program);
 void	init_struct(t_program *mini, char **env);
 
@@ -185,6 +135,23 @@ int		check_quotes(const char *input);
 
 //utils/utils.c
 int		ft_strcmp(const char *s1, const char *s2);
-void	*ft_realloc(void *ptr, size_t size);
+char	*ft_strndup(const char *s, size_t size);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
+//builtin
+bool	is_builtins(char *cmd);
+void	run_bultin(t_program *mini, t_input_organize *pgr, char **cmd);
+void	ft_cd(t_program *mini, char **cmd);
+void	ft_echo(char **cmd);
+void	ft_env(t_program *pgr);
+t_envp	*add_envp_node(t_envp *new, t_envp *envp);
+t_envp	*new_envp_node(char *name, char *value);
+t_envp	*find_envp_node(char *name, t_envp *envp);
+void	ft_exit(t_program *pgr, char **cmd);
+void	ft_pwd(void);
+void	env_export(t_program *pgr, char *name, char *value, int visible);
+
+//error/error.c
+void	print_error(char *cmd);
 
 #endif
