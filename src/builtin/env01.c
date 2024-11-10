@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env01.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:00:03 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/05 20:14:09 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/09 12:06:23 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //Função q lista todas as variáveis de ambiente.
+/*
 void ft_env(t_program *pgr)
 {
 	t_envp *envp;
@@ -33,6 +34,7 @@ void ft_env(t_program *pgr)
 		envp = envp->next;
 	}
 }
+*/
 
 // Função para adicionar um nó de variável de ambiente ao final
 // da lista encadeada.

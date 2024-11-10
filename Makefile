@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caliman <caliman@student.42.fr>            +#+  +:+       +#+         #
+#    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/11/04 22:46:32 by caliman          ###   ########.fr        #
+#    Updated: 2024/11/10 15:24:03 by fgomes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,20 +17,20 @@ CFLAGS = -Wall -Wextra -Werror -g -I includes -I libft
 LIBFT_PATH = libft
 LIBFT = -Llibft -lft
 SRC =	src/builtin/builtins.c \
-		src/builtin/cd.c \
 		src/builtin/echo.c \
-		src/builtin/env01.c \
+		src/builtin/env00.c \
 		src/builtin/exit.c \
-		src/builtin/export.c \
 		src/builtin/pwd.c \
 		src/clean/clean.c \
 		src/error/error.c \
 		src/initialize/init.c \
-		src/lexer/parseline.c \
 		src/loop/mini_loop.c \
-		src/parser/quotes.c \
+		src/parser/new_split.c \
+		src/parser/parseline.c \
 		src/parser/parsing.c \
+		src/parser/quotes.c \
 		src/utils/utils.c \
+		src/utils/utils2.c \
 		src/main.c
 
 # Regras

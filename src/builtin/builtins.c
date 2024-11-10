@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:09:17 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/05 20:45:08 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/10 15:17:10 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_builtins(char *cmd)
+bool	ft_is_builtin(char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0 || ft_strncmp(cmd, "cd", 2) == 0
 		|| ft_strncmp(cmd, "pwd", 3) == 0 || ft_strncmp(cmd, "export", 6) == 0
@@ -24,23 +24,71 @@ bool	is_builtins(char *cmd)
 	return (false);
 }
 
-
-void	run_bultin(t_program *mini, t_input_organize *pgr, char **cmd)
+void	ft_builtin(t_program *mini, t_organize *program, char **line)
 {
-	(void)mini;
-	(void)pgr;
-	if (ft_strncmp(cmd[0], "echo", 4) == 0)
-		ft_echo(cmd);
-	else if (ft_strncmp(cmd[0], "cd", 2) == 0)
-		ft_cd(mini, cmd);
-	else if (ft_strncmp(cmd[0], "pwd", 3) == 0)
+	if (ft_strncmp(line[0], "echo", 4) == 0)
+		ft_echo(line);
+//	else if (ft_strncmp(line[0], "cd", 2) == 0)
+//		ft_cd(mini, line);
+	else if (ft_strncmp(line[0], "pwd", 3) == 0)
 		ft_pwd();
-//	else if (ft_strncmp(cmd, "export", 6) == 0)
-//		ft_export(mini, cmd);
-//	else if (ft_strncmp(cmd, "unset", 5) == 0 == 0)
-//		ft_unset(mini, cmd);
-	else if (ft_strncmp(cmd[0], "env", 3) == 0)
-		ft_env(mini);
-	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
-		ft_exit(mini, cmd);
+//	else if (ft_strncmp(line[0], "export", 6) == 0)
+//	 	ft_export(mini, line);
+//	else if (ft_strncmp(line[0], "unset", 5) == 0)
+// 		ft_unset(mini, line);
+	else if (ft_strncmp(line[0], "env", 3) == 0)
+		ft_env(mini,line);
+	else if (ft_strncmp(line[0], "exit", 4) == 0)
+		ft_exit(mini, program, line);
 }
+
+/*
+void	ft_pwd(void)
+{
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	ft_printf("%s\n", cwd);
+	free(cwd);
+}
+
+void	ft_echo(char **line)
+{
+	int	i;
+
+	i = 1;
+	while (line[i])
+	{
+		ft_printf("%s", line[i]);
+		if (line[i + 1])
+			ft_printf(" ");
+		i++;
+	}
+	ft_printf("\n");
+}
+
+void	ft_cd(char **line)
+{
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (line[1] == NULL)
+	{
+		chdir(getenv("HOME"));
+	}
+	else if (ft_strncmp(line[1], "~", 1) == 0)
+	{
+		chdir(getenv("HOME"));
+	}
+	else if (ft_strncmp(line[1], "-", 1) == 0)
+	{
+		chdir(getenv("OLDPWD"));
+	}
+	else
+	{
+		if (chdir(line[1]) == -1)
+			ft_printf("cd: %s: No such file or directory\n", line[1]);
+	}
+	free(cwd);
+}
+*/

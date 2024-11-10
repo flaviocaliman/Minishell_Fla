@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 20:22:03 by caliman           #+#    #+#             */
-/*   Updated: 2024/10/29 21:19:13 by caliman          ###   ########.fr       */
+/*   Created: 2024/11/09 13:35:08 by fgomes-c          #+#    #+#             */
+/*   Updated: 2024/11/09 14:51:43 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ lista encadeada de variáveis de ambiente:
 void ft_unset(t_program *pgr, char **line)
 {
     if (line_len(line) != 2) {
-        return error(RED, ERROR_UNSET_ARGS, NULL, 1);
+        return error(ERROR_UNSET_ARGS, NULL, 1);
     }
 
     t_envp *node_to_remove = find_envp_node(line[1], pgr->envp);
     if (node_to_remove == NULL)
-        return error(RED, ERROR_UNSET_VAR, line[1], 1);
+        return error(ERROR_UNSET_VAR, line[1], 1);
     remove_envp_node(&(pgr->envp), node_to_remove);
 }

@@ -3,52 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:30:46 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/05 21:20:06 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/08 21:15:44 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**save_path(t_program *mini, char **envp)
+void	add_node(t_organize *node, t_organize *new)
 {
-	t_program	*mini_tmp;
-	int		i;
-	char	*tmp;
+	t_organize	*last;
 
-	mini_tmp = mini;
+	if (!new)
+		return ;
+	if (!node)
+		node = new;
+	else
+	{
+		last = node;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
+}
+
+t_organize	*new_node(void)
+{
+	t_organize *new;
+
+	new = malloc(sizeof(t_organize));
+	if (!new)
+		return (NULL);
+	new->append_file = NULL;
+	new->args = NULL;
+	new->cmds = NULL;
+	new->heredoc_del = NULL;
+	new->input_file = NULL;
+	new->output_file = NULL;
+	new->next = NULL;
+	return (new);
+}
+
+void	save_path(t_program *mini, char **envp)
+{
+	int			i;
+	char		*tmp;
+
 	i = -1;
 	while (!ft_strnstr(*envp, "PATH=", 5))
 		envp++;
-	mini_tmp->path = ft_split(*envp + 5, ':');
-	while (mini_tmp->path[++i])
+	mini->path = ft_split(*envp + 5, ':');
+	while (mini->path[++i])
 	{
-		tmp = ft_strjoin(mini_tmp->path[i], "/");
-		free (mini_tmp->path[i]);
-		mini_tmp->path[i] = tmp;
+		tmp = ft_strjoin(mini->path[i], "/");
+		free (mini->path[i]);
+		mini->path[i] = tmp;
 	}
-	return (mini_tmp->path);
-}
-void	init_organize(t_input_organize *program)
-{
-	program->pipes = 0;
-	program->input_file = NULL;
-	program->output_file = NULL;
-	program->append_file = NULL;
-	program->heredoc_delimiter = NULL;
-	program->cmd_split = NULL;
 }
 
-void init_struct(t_program *mini, char **env)
+void	init_organize(t_organize *program, t_program *mini)
 {
+	int			i;
+	t_organize	*list;
+
+	i = -1;
+	pipes_counter(mini);
+	while (++i <= mini->pipes)
+	{
+		if (i == 0)
+			list = new_node();
+		else
+			add_node(list, new_node());
+	}
+	*program = *list;
+}
+
+void	init_struct(t_program *mini, char **env)
+{
+	mini->pipes = 0;
+	mini->loop = ON;
 	mini->env = env;
-	mini->path = save_path(mini, env);
+	save_path(mini, env);
 	mini->user_input = NULL;
 	mini->pwd = getcwd(0, 0);
 	mini->old_pwd = NULL;
-	mini->loop = ON;
-	mini->envp = NULL;
+	update_sh_lvl(mini);
 }
-

@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/03 19:53:46 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/05 21:38:38 by caliman          ###   ########.fr       */
+/*   Created: 2024/11/09 13:31:49 by fgomes-c          #+#    #+#             */
+/*   Updated: 2024/11/10 15:05:03 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Função para liberar a memória alocada para
-// a estrutura t_program.
-
-void free_pgr(t_program *pgr)
-{
-	t_envp *envp;
-	t_envp *temp;
-
-	envp = pgr->envp;
-	while (envp)
-	{
-		temp = envp;
-		envp = envp->next;
-		free(temp->name);
-		free(temp->value);
-		free(temp);
-	}
-	free(pgr->path);
-}
 
 // Função para verificar se um caractere é um dígito.
 static bool ft_isnumber(char *str)
@@ -52,7 +32,7 @@ static bool ft_isnumber(char *str)
 }
 
 // Função para sair do shell.
-void ft_exit(t_program *mini, char **cmd)
+void ft_exit(t_program *mini, t_organize *pgr, char **cmd)
 {
 	int i;
 
@@ -77,5 +57,5 @@ void ft_exit(t_program *mini, char **cmd)
 			}
 		}	
 	}
-	free_pgr(mini);
+	free_program(mini, pgr);
 }

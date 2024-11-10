@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 20:09:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/09/20 11:20:00 by caliman          ###   ########.fr       */
+/*   Created: 2024/11/09 13:29:26 by fgomes-c          #+#    #+#             */
+/*   Updated: 2024/11/09 13:29:42 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,53 +67,3 @@ void ft_echo(char **cmd)
 		write(1, "\n", 1);
 	free_array(str);
 }
-/*
-void ft_echo(char **cmd)
-{
-	char	**str;
-	int 	n;
-	int 	i;
-	int 	j;
-
-	j = 0;
-	i = 0;
-	n = 0;
-	if (cmd == NULL || cmd[0] == NULL)
-        return;
-	if (ft_strncmp(cmd[0], "echo -n", 7) == 0)
-		n = 1;
-	str = ft_split(cmd[0], ' ');
-	if (str == NULL)
-        return;
-	i++;
-	if (n == 1)
-		i++;
-	while (*str)
-	{
-		if (str[i] == NULL)
-            break;
-		if (str[i][j] != '\0')
-		{
-			if (str[i][j] == '"')
-			{
-				while (str[i][j] == '"')
-					j++;
-			}
-			else
-			{
-				write(1, &str[i][j], 1);
-				j++;
-			}
-		}
-		else
-		{
-			write(1, " ", 1);
-			i++;
-			j = 0;
-		}
-	}
-	if (n == 1)
-		write(1, "\n", 1);
-	free_array(str);
-}
-*/

@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/09/20 13:50:29 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/08 20:46:57 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int mini_loop(t_program *mini, t_input_organize *program)
+int	mini_loop(t_program *mini, t_organize *program)
 {
-	while(mini->loop == ON)
+	while (mini->loop == ON)
 	{
 		if (parseline(mini))
-			continue;
-		init_organize(program);
+			continue ;
+		printf("mini->user_input: %s\n", mini->user_input);
+		init_organize(program, mini);
 		parse_input(mini, program);
-		if (is_builtins(program->cmd_split[0]))
-			run_bultin(mini, program, program->cmd_split);
-		if(ft_strcmp(mini->user_input, "exit") == 0 || ft_strncmp(mini->user_input, "exit ", 5) == 0)
-			break;
+		if (ft_strncmp(mini->user_input, "exit", 4) == 0)
+			break ;
 		free_organize(program);
 		free(mini->user_input);
 	}
