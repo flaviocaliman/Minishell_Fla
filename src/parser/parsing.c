@@ -6,19 +6,22 @@
 /*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:39:34 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/08 22:08:42 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:33:09 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*copy(char *dest, char *src)
+char	*copy_args(char *dest, char *src)
 {
-	if (!src)
-		return (NULL);
-	if (dest)
-		free(dest);
-	dest = ft_strdup(src);
+	char	*tmp;
+	
+	if (!dest)
+		return (ft_strdup(src));
+	tmp = ft_strjoin(dest, " ");
+	free(dest);
+	dest = ft_strjoin(tmp, src);
+	free(tmp);
 	return (dest);
 }
 
@@ -52,8 +55,8 @@ void	process_input(t_organize *program, t_program *mini)
 		}
 		else if (ft_strcmp(input[i], "<<") == 0 && input[i + 1])
 		{
-			tmp->heredoc_del = copy_redir(tmp->heredoc_del, input[++i]);
-			printf("heredoc_del[%d]: %s\n", struct_pos, tmp->heredoc_del);
+			tmp->heredoc_dlm = copy_redir(tmp->heredoc_dlm, input[++i]);
+			printf("heredoc_dlm[%d]: %s\n", struct_pos, tmp->heredoc_dlm);
 		}
 		else if (ft_strcmp(input[i], ">") == 0 && input[i + 1])
 		{
@@ -69,6 +72,7 @@ void	process_input(t_organize *program, t_program *mini)
 		{
 			tmp = tmp->next;
 			struct_pos++;
+			printf("\n");
 			continue ;
 		}
 		else
@@ -76,12 +80,11 @@ void	process_input(t_organize *program, t_program *mini)
 			tmp->cmds = ft_strdup(input[i]);
 			printf("cmd_split[%d]: %s\n", struct_pos, tmp->cmds);
 			while (input[i + 1] && !is_token(input[i + 1][0]))
-			{
-				tmp->args = ft_strcpy(input[++i]);
-			}
+				tmp->args = copy_args(tmp->args, input[++i]);
 			printf("args_split[%d]: %s\n", struct_pos, tmp->args);
 		}
 	}
+	free_array(input);
 }
 
 void	parse_input(t_program *mini, t_organize *program)

@@ -6,7 +6,7 @@
 /*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:25:00 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/08 16:47:52 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:46:43 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,37 @@ void	free_array(char **array)
 
 void	free_organize(t_organize *program)
 {
-	if (program->input_file)
-		free(program->input_file);
-	if (program->output_file)
-		free(program->output_file);
-	if (program->append_file)
-		free(program->append_file);
-	if (program->heredoc_del)
-		free(program->heredoc_del);
-	if (program->cmds)
-		free(program->cmds);
-	if (program->args)
-		free(program->args);
+	t_organize	*tmp;
+
+	while (program)
+	{
+		tmp = program;
+		program = program->next;
+		if (tmp->input_file)
+			free(tmp->input_file);
+		if (tmp->output_file)
+			free(tmp->output_file);
+		if (tmp->append_file)
+			free(tmp->append_file);
+		if (tmp->heredoc_dlm)
+			free(tmp->heredoc_dlm);
+		if (tmp->cmds)
+			free(tmp->cmds);
+		if (tmp->args)
+			free(tmp->args);
+		if (tmp)
+			free(tmp);
+	}
 }
 
-void	free_program(t_program *mini, t_organize *program)
+void	free_program(t_program *mini)  
 {
 	free_array(mini->path);
 	free(mini->pwd);
 	free(mini->old_pwd);
 	if (mini->user_input)
 		free(mini->user_input);
-	free_organize(program);
+	if (mini)
+		free(mini);
+	//free_organize(program);
 }

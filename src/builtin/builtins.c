@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 18:09:17 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/10 15:17:10 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/13 01:25:49 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 bool	ft_is_builtin(char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0 || ft_strncmp(cmd, "cd", 2) == 0
@@ -41,6 +41,7 @@ void	ft_builtin(t_program *mini, t_organize *program, char **line)
 	else if (ft_strncmp(line[0], "exit", 4) == 0)
 		ft_exit(mini, program, line);
 }
+*/
 
 /*
 void	ft_pwd(void)

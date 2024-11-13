@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 13:29:26 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/11/09 13:29:42 by fgomes-c         ###   ########.fr       */
+/*   Created: 2024/11/12 23:28:50 by caliman           #+#    #+#             */
+/*   Updated: 2024/11/13 00:11:52 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Função que exibe uma string na saída padrão. Com ou sem
 // quebra de linha (-n).
-
+/*
 void print_args(char **str, int i)
 {
 	int 	j;
@@ -67,3 +67,4 @@ void ft_echo(char **cmd)
 		write(1, "\n", 1);
 	free_array(str);
 }
+*/
