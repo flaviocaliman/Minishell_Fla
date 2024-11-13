@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:39:16 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/12 23:39:26 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/13 19:59:01 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ Print Working Directory: exibe o caminho
 completo do diretório de trabalho atual.
 */
 
-void	ft_pwd(void)
+void	ft_pwd(t_organize *program)
 {
 	char *path;
-	
+
+	if (program->args)
+	{
+		printf("%s\n", ERROR_PWD_ARGUMENTS);
+		return ;
+	}
 	path = getcwd(NULL, 0);
 	if (path)
 	{

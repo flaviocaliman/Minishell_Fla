@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/12 20:44:55 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/13 22:35:23 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@
 # define ON 0
 # define OFF 1
 
+# define ERROR_PWD_ARGUMENTS "pwd: too many arguments"
+# define ERROR_PWD_DIRECTORY "pwd: couldn't get current directory"
+# define ERROR_CD_ARGS "cd: too many arguments"
+# define ERROR_CD_HOME "cd: HOME not set"
+# define ERROR_CD_OLDPWD "cd: OLDPWD not set"
+# define ERROR_CD_DIRECTORY "cd: no such file or directory"
+
 typedef struct s_organize
 {
 	char				*input_file;
@@ -45,6 +52,15 @@ typedef struct s_organize
 	char				*args;
 	struct s_organize	*next;
 }		t_organize;
+/*
+typedef struct s_envp
+{
+	char			*name;
+	char			*value;
+	int				visible;
+	struct s_envp	*next;
+}		t_envp;
+*/
 
 //main struct
 typedef struct s_program
@@ -56,7 +72,14 @@ typedef struct s_program
 	char			*user_input;
 	char			*pwd;
 	char			*old_pwd;
+	// t_envp			*envp;
 }		t_program;
+
+//echo/echo.c
+void		ft_echo(t_organize *program);
+
+//pwd/pwd.c
+void		ft_pwd(t_organize *program);
 
 //clean/clean.c
 void		free_array(char **array);

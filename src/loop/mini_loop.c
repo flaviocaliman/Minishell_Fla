@@ -3,57 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/13 01:51:42 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/13 22:35:50 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 /*
-*/
-void	print_args(const char *args)
+void	env_export(t_program *mini, char *name, char *value, int visible)
 {
-	int		i;
-	int		j;
-	char	**str;
+	t_envp	*envp;
 
-	i = 0;
-	j = 0;
-	str = ft_split(args, ' ');
-	if (ft_strncmp(str[0], "-n", 2) == 0)
-		i = 1;
-	while (str[i])
+	envp = find_envp_node(name, mini->envp);
+	if (envp)
 	{
-		j = 0;
-		write(1, " ", 1);
-		while (str[i][j])
+		if (visible)
 		{
-			if (str[i][j] == '"')
-				j++;
-			else
-				write(1, &str[i][j++], 1);
+			free(envp->value);
+			envp->value = ft_strdup(value);
 		}
-		i++;
 	}
-	free_array(str);
+	else
+	{
+		envp = new_envp_node(name, value);
+		add_envp_node(envp, mini->envp);
+	}
 }
 
-void	ft_echo(t_organize *program)
+bool	change_dir(t_program *mini, char *path)
 {
-	int			n;
-	char	*str;
+	char	*temp_pwd;
 
-	str = program->args;
-	n = 0;
-	if (ft_strncmp(str, "-n", 2) == 0)
-		n = 1;
-	printf("Chegamos aqui\n");
-	print_args(str);
-	if (n == 0)
-		write(1, "\n", 1);
+	temp_pwd = getcwd(NULL, 0);
+	if (chdir(path) != 0)
+	{
+		free(temp_pwd);
+		print_error(ERROR_CD_DIRECTORY);
+		return (false);
+	}
+	env_export(mini, "OLDPWD", temp_pwd, 1);
+	free(temp_pwd);
+	temp_pwd = getcwd(NULL, 0);
+	env_export(mini, "PWD", temp_pwd, 1);
+	free(temp_pwd);
+	return (true);
 }
+
+void	ft_cd(t_program *mini, t_organize *program)
+{
+	char	*path;
+
+	if (program->args[1] == NULL || ft_strncmp(program->args[1], "~", 1) == 0)
+	{
+		path = ft_strdup(getenv("HOME"));
+		if (change_dir(mini, path) != 0)
+			print_error(ERROR_CD_HOME);
+	}
+	else if (ft_strncmp(program->args[1], "-", 1) == 0)
+	{
+		path = ft_strdup(getenv("OLDPWD"));
+		if (change_dir(mini, path) != 0)
+			print_error(ERROR_CD_OLDPWD);
+	}
+	else
+	{
+		path = ft_strdup(program->args[1]);
+		if (change_dir(mini, path) != 0)
+			print_error(ERROR_CD_DIRECTORY);
+	}
+	free(path);
+}
+*/
 
 int	mini_loop(t_program *mini)
 {
@@ -71,17 +93,17 @@ int	mini_loop(t_program *mini)
 		parse_input(mini, program);
 		if (ft_strncmp(mini->user_input, "echo", 4) == 0)
 			ft_echo(program);
-//		else if (ft_strncmp(mini->user_input, "cd", 2) == 0)
-//			ft_cd(mini, program);
-//		else if (ft_strncmp(mini->user_input, "pwd", 3) == 0)
-//			ft_pwd();
+		// else if (ft_strncmp(mini->user_input, "cd", 2) == 0)
+		// 	ft_cd(mini, program);
+		else if (ft_strncmp(mini->user_input, "pwd", 3) == 0)
+			ft_pwd(program);
 //		else if (ft_strncmp(mini->user_input, "export", 6) == 0)
 //			ft_export(mini, program);
 //		else if (ft_strncmp(mini->user_input, "unset", 5) == 0)
 //			ft_unset(mini, program);
 //		else if (ft_strncmp(mini->user_input, "env", 3) == 0)
 //			ft_env(mini, program);
-		if (ft_strncmp(mini->user_input, "exit", 4) == 0)
+		else if (ft_strncmp(mini->user_input, "exit", 4) == 0)
 		{
 			free_organize(program);
 			break ;
