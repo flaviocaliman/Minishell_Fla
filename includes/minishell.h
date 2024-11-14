@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/13 22:35:23 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:30:45 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_organize
 	struct s_organize	*next;
 }		t_organize;
 /*
+*/
 typedef struct s_envp
 {
 	char			*name;
@@ -60,7 +61,6 @@ typedef struct s_envp
 	int				visible;
 	struct s_envp	*next;
 }		t_envp;
-*/
 
 //main struct
 typedef struct s_program
@@ -72,11 +72,14 @@ typedef struct s_program
 	char			*user_input;
 	char			*pwd;
 	char			*old_pwd;
-	// t_envp			*envp;
+	t_envp			*envp;
 }		t_program;
 
 //echo/echo.c
 void		ft_echo(t_organize *program);
+
+//builtin/env.c
+void		ft_env(t_program *mini, t_organize *program);
 
 //pwd/pwd.c
 void		ft_pwd(t_organize *program);
@@ -85,6 +88,11 @@ void		ft_pwd(t_organize *program);
 void		free_array(char **array);
 void		free_organize(t_organize *program);
 void		free_program(t_program *mini); //old -> free_program(t_program *mini, t_organize *program);
+
+//error/error.c
+void		print_error(char *cmd);
+void		ft_error_cmds(t_organize *program);
+void		ft_error_args();
 
 //initialize/init.c
 void		print_list(t_organize *program);

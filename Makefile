@@ -6,19 +6,21 @@
 #    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/11/13 20:07:51 by fgomes-c         ###   ########.fr        #
+#    Updated: 2024/11/14 19:00:44 by fgomes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Setup
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I includes -I libft #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -I includes -I libft -fsanitize=address
 LIBFT_PATH = libft
 LIBFT = -Llibft -lft
 SRC =	src/builtin/echo.c \
+		src/builtin/env00.c \
 		src/builtin/pwd.c \
 		src/clean/clean.c \
+		src/error/error.c \
 		src/initialize/init.c \
 		src/loop/mini_loop.c \
 		src/parser/new_split.c \

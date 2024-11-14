@@ -6,76 +6,61 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/13 22:35:50 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:46:33 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 /*
-void	env_export(t_program *mini, char *name, char *value, int visible)
-{
-	t_envp	*envp;
-
-	envp = find_envp_node(name, mini->envp);
-	if (envp)
-	{
-		if (visible)
-		{
-			free(envp->value);
-			envp->value = ft_strdup(value);
-		}
-	}
-	else
-	{
-		envp = new_envp_node(name, value);
-		add_envp_node(envp, mini->envp);
-	}
-}
-
-bool	change_dir(t_program *mini, char *path)
-{
-	char	*temp_pwd;
-
-	temp_pwd = getcwd(NULL, 0);
-	if (chdir(path) != 0)
-	{
-		free(temp_pwd);
-		print_error(ERROR_CD_DIRECTORY);
-		return (false);
-	}
-	env_export(mini, "OLDPWD", temp_pwd, 1);
-	free(temp_pwd);
-	temp_pwd = getcwd(NULL, 0);
-	env_export(mini, "PWD", temp_pwd, 1);
-	free(temp_pwd);
-	return (true);
-}
-
-void	ft_cd(t_program *mini, t_organize *program)
-{
-	char	*path;
-
-	if (program->args[1] == NULL || ft_strncmp(program->args[1], "~", 1) == 0)
-	{
-		path = ft_strdup(getenv("HOME"));
-		if (change_dir(mini, path) != 0)
-			print_error(ERROR_CD_HOME);
-	}
-	else if (ft_strncmp(program->args[1], "-", 1) == 0)
-	{
-		path = ft_strdup(getenv("OLDPWD"));
-		if (change_dir(mini, path) != 0)
-			print_error(ERROR_CD_OLDPWD);
-	}
-	else
-	{
-		path = ft_strdup(program->args[1]);
-		if (change_dir(mini, path) != 0)
-			print_error(ERROR_CD_DIRECTORY);
-	}
-	free(path);
-}
 */
+
+void	ft_remove_env_node(t_envp **head, t_envp *current, t_envp *previus)
+{
+	if (previus == NULL)
+		*head = current->next;
+	else
+		previus->next = current->next;
+	free(current->name);
+	free(current->value);
+	free(current);
+}
+
+void	ft_unset(t_program *mini, t_organize *program)
+{
+	char	**args;
+	int		i;
+	t_envp	*current;
+	t_envp	*previus;
+
+	(void)mini;
+	i = 0;
+	if (program->cmds[5])
+		ft_error_cmds(program);
+	else if (program->args == NULL)
+		return ;
+	else
+	{
+		args = ft_new_split(program->args, ' ');
+		while (args[i])
+		{
+			current = mini->envp;
+			previus = NULL;
+			while (current && current->name)
+			{
+				printf("estamos aqui\n");
+				if (ft_strncmp(current->name, args[i], ft_strlen(args[i])) == 0)
+				{
+					ft_remove_env_node(&mini->envp, current, previus);
+					break ;
+				}
+				previus = current;
+				current = current->next;
+			}
+			i++;
+		}
+		free_array(args);
+	}
+}
 
 int	mini_loop(t_program *mini)
 {
@@ -99,10 +84,10 @@ int	mini_loop(t_program *mini)
 			ft_pwd(program);
 //		else if (ft_strncmp(mini->user_input, "export", 6) == 0)
 //			ft_export(mini, program);
-//		else if (ft_strncmp(mini->user_input, "unset", 5) == 0)
-//			ft_unset(mini, program);
-//		else if (ft_strncmp(mini->user_input, "env", 3) == 0)
-//			ft_env(mini, program);
+		else if (ft_strncmp(mini->user_input, "unset", 5) == 0)
+			ft_unset(mini, program);
+		else if (ft_strncmp(mini->user_input, "env", 3) == 0)
+			ft_env(mini, program);
 		else if (ft_strncmp(mini->user_input, "exit", 4) == 0)
 		{
 			free_organize(program);

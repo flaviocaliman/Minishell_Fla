@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:28:50 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/13 19:01:00 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/14 19:08:43 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,14 @@ void	ft_echo(t_organize *program)
 
 	str = program->args;
 	n = 0;
-	if (ft_strncmp(str, "-n", 2) == 0)
-		n = 1;
-	print_args(str, n);
-	if (n == 0)
-		write(1, "\n", 1);
+	if (program->cmds[4])
+		ft_error_cmds(program);
+	else
+	{
+		if (ft_strncmp(str, "-n", 2) == 0)
+			n = 1;
+		print_args(str, n);
+		if (n == 0)
+			write(1, "\n", 1);
+	} 
 }
