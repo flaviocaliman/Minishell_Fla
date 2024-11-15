@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 10:38:37 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/12 23:44:08 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/08 21:48:21 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,4 @@ void	*ft_realloc(void *ptr, size_t original_size, size_t new_size)
 		free(ptr);
 	}
 	return (new_ptr);
-}
-
-char	*ft_strndup(const char *s, size_t size)
-{
-	char	*str;
-	size_t	i;
-	size_t	len;
-
-	if (size > ft_strlen(s))
-		len = ft_strlen(s);
-	else
-		len = size;
-	str = malloc(len * sizeof(char) + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		str[i] = ((char *)s)[i];
-		i++;
-	}
-	str[i] = 0;
-	return (str);
 }

@@ -6,27 +6,26 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/14 21:30:45 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/15 22:18:17 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <signal.h>
-# include <limits.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <stdbool.h>
-# include <errno.h>
-# include "libft.h"
+# include <unistd.h> //functions: read, write, close, fork, execve, chdir, pipe, dup2, dup, waitpid, wait, wait3, wait4, signal, kill, exit	
+# include <stdlib.h> //functions: malloc, free, exit, execve, getenv, realpath, system
+# include <stdio.h> //functions: printf, perror, strerror
+# include <sys/wait.h> //functions: waitpid, wait, wait3, wait4
+# include <sys/stat.h> //functions: stat, lstat, fstat
+# include <signal.h> //functions: signal, kill
+# include <limits.h> //functions: PATH_MAX
+# include <fcntl.h> //functions: open, close, read, write
+# include <readline/readline.h> //functions: readline, add_history
+# include <readline/history.h> //functions: using_history
+# include <stdbool.h> //types: bool
+# include <errno.h> //variables: errno
+# include "libft.h" //libft functions
 
 # define STDIN 0
 # define STDOUT 1
@@ -42,6 +41,18 @@
 # define ERROR_CD_OLDPWD "cd: OLDPWD not set"
 # define ERROR_CD_DIRECTORY "cd: no such file or directory"
 
+
+typedef struct s_var
+{
+	int		i;
+	int 	j;
+	int		k;
+	int		inside;
+	int		size;
+	char 	c;
+	char 	*str;
+} t_var;
+
 typedef struct s_organize
 {
 	char				*input_file;
@@ -52,47 +63,54 @@ typedef struct s_organize
 	char				*args;
 	struct s_organize	*next;
 }		t_organize;
-/*
-*/
-typedef struct s_envp
+
+typedef struct s_env
 {
-	char			*name;
-	char			*value;
-	int				visible;
-	struct s_envp	*next;
-}		t_envp;
+	char			*content;
+	struct s_env	*next;
+	struct s_env	*prev;
+}		t_env;
 
 //main struct
 typedef struct s_program
 {
 	int				pipes;
 	int				loop;
-	char			**env;
 	char			**path;
 	char			*user_input;
 	char			*pwd;
 	char			*old_pwd;
-	t_envp			*envp;
+	struct s_env	*env_list;
+	struct s_env	*export_list;
 }		t_program;
 
 //echo/echo.c
 void		ft_echo(t_organize *program);
 
-//builtin/env.c
+//builtin/env00.c
 void		ft_env(t_program *mini, t_organize *program);
+void		print_env_list(t_env *list);
 
 //pwd/pwd.c
 void		ft_pwd(t_organize *program);
 
 //clean/clean.c
+void		delete_list(t_env *list);
 void		free_array(char **array);
 void		free_organize(t_organize *program);
 void		free_program(t_program *mini); //old -> free_program(t_program *mini, t_organize *program);
+int			size_without_quotes(char *input);
+
+//env/env.c
+// void		print_env_list_test(t_env *list);
+void		add_env_node(t_env *node, t_env *new);
+t_env		*new_env_node(void);
+t_env		*init_env(char **env);
 
 //error/error.c
-void		print_error(char *cmd);
-void		ft_error_cmds(t_organize *program);
-void		ft_error_args();
+void	print_error(char *cmd);
+void	ft_error_cmds(t_organize *program);
+void	ft_error_args(void);
 
 //initialize/init.c
 void		print_list(t_organize *program);
@@ -107,6 +125,8 @@ int			mini_loop(t_program *mini); // old -> int mini_loop(t_program *mini, t_org
 char		**ft_new_split(char *s, char c);
 
 //parser/parseline.c
+int			size_without_quotes(char *input);
+char		*remove_quotes(char *input);
 int			ft_isspaces(char c);
 char		*fix_redir_spaces(char *input);
 int			parseline(t_program *mini);
@@ -127,6 +147,5 @@ void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 //utils/utils2.c
 char		*ft_strcpy(char *src);
 int			pipes_counter(char *str);
-void		update_sh_lvl(t_program *mini);
-
+void		update_sh_lvl(t_env *env);
 #endif

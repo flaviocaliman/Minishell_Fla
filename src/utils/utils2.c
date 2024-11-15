@@ -6,7 +6,7 @@
 /*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 17:29:45 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/12 17:27:53 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/15 20:25:38 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,27 @@ int	pipes_counter(char *str)
 	return (pipe);
 }
 
-void	update_sh_lvl(t_program *mini)
+void	update_sh_lvl(t_env *env)
 {
 	int		i;
 	char	*sh_lvl;
 	char	*new_lvl;
+	t_env	*tmp;
 
 	i = -1;
-	while (mini->env[++i])
+	tmp = env;
+	while (tmp)
 	{
-		if (ft_strnstr(mini->env[i], "SHLVL=", 6))
+		if (ft_strnstr(tmp->content, "SHLVL=", 6))
 		{
-			sh_lvl = ft_substr(mini->env[i], 6, ft_strlen(mini->env[i]) - 6);
+			sh_lvl = ft_substr(tmp->content, 6, ft_strlen(tmp->content) - 6);
 			new_lvl = ft_itoa(ft_atoi(sh_lvl) + 1);
+			free(tmp->content);
 			free(sh_lvl);
 			sh_lvl = ft_strjoin("SHLVL=", new_lvl);
 			free(new_lvl);
-			mini->env[i] = sh_lvl;
-			break ;
+			tmp->content = sh_lvl;
 		}
+		tmp = tmp->next;
 	}
 }
