@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/16 23:34:52 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/17 17:42:14 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ void		print_env_list(t_env *list);
 
 //builtin/exit.c
 int			ft_exit(t_organize *program, char *cmd);
+
+//builtin/export.c
+void		ft_export(t_program *mini);
 
 //pwd/pwd.c
 void		ft_pwd(t_organize *program);

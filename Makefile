@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caliman <caliman@student.42.fr>            +#+  +:+       +#+         #
+#    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/11/16 23:34:59 by caliman          ###   ########.fr        #
+#    Updated: 2024/11/17 16:01:31 by fgomes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ LIBFT = -Llibft -lft
 SRC =	src/builtin/echo.c \
 		src/builtin/env00.c \
 		src/builtin/exit.c \
+		src/builtin/export.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c \
 		src/clean/clean.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/17 00:18:53 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/17 16:56:42 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,18 @@ int	check_exit_args(char **args)
     return (EXIT_SUCCESS);
 }
 
-int	ft_exit(t_organize *pgr, char *str)
+int	ft_exit(t_organize *program, char *str)
 {
     char	**args;
 
-    if (!str)
+    if (program->cmds[4])
+    {
+        ft_error_cmds(program);
+        return (EXIT_FAILURE);
+    }
+    else if (!str)
 	{
-	    free_organize(pgr);
+	    free_organize(program);
 		return (EXIT_SUCCESS);
 	}
     args = ft_new_split(str, ' ');
@@ -72,7 +77,7 @@ int	ft_exit(t_organize *pgr, char *str)
 		free_array(args);
         return (EXIT_FAILURE);
 	}
-    free_organize(pgr);
+    free_organize(program);
 	free_array(args);
     return (EXIT_SUCCESS);
 }
