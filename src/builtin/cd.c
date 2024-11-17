@@ -6,63 +6,60 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:28:12 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/12 23:36:07 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/16 23:16:36 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Função que retorna o tamanho de uma string.
-int line_len(char **cmd)
+void	ft_cd_home(t_env *env_list)
 {
-	int i;
-	if (!cmd)
-		return (0);
-	i = 0;
-	while (cmd[i])
-		i++;
-	return (i);
+    t_env	*tmp;
+
+    tmp = env_list;
+    while (tmp)
+    {
+        if (ft_strncmp(tmp->content, "HOME=", 5) == 0)
+        {
+            if (chdir(tmp->content + 5) == -1)
+                print_error("cd");
+            break ;
+        }
+        tmp = tmp->next;
+    }
 }
 
-// Muda o diretório de trabalho atual e atualiza as variáveis de ambiente OLDPWD e PWD.
-bool change_dir(t_program *mini, char *path)
+void	ft_cd_oldpwd(t_env *env_list)
 {
-	char *temp_pwd;
-	
-	temp_pwd = getcwd(NULL, 0);
-	if (chdir(path) != 0)
-	{
-		free(temp_pwd);
-		print_error(ERROR_CD_DIRECTORY);
-		return (false);
-	}
-	env_export(mini, "OLDPWD", temp_pwd, 1);
-	free(temp_pwd);
-	temp_pwd = getcwd(NULL, 0);
-	env_export(mini, "PWD", temp_pwd, 1);
-	free(temp_pwd);
-	return (true);
+    t_env	*tmp;
+
+    tmp = env_list;
+    while (tmp)
+    {
+        if (ft_strncmp(tmp->content, "OLDPWD=", 7) == 0)
+        {
+            if (chdir(tmp->content + 7) == -1)
+                print_error("cd");
+            break ;
+        }
+        tmp = tmp->next;
+    }
 }
 
-// Implementa o comando cd, mudando o diretório de trabalho com base nos
-// argumentos fornecidos e tratando erros adequadamente.
-void ft_cd(t_program *mini, char **cmd)
+void	ft_cd_path(char *path)
 {
-	if (line_len(cmd) > 1)
-		return (print_error(ERROR_CD_ARGS));
-	if (cmd[1] == NULL || ft_strncmp(cmd[1], "~", 1) == 0)
-	{
-		if (change_dir(mini, getenv("HOME")) != 0)
-			print_error(ERROR_CD_HOME);	
-	}
-	else if (ft_strncmp(cmd[1], "-", 1) == 0)
-	{
-		if (change_dir(mini, getenv("OLDPWD")) != 0)
-			print_error(ERROR_CD_OLDPWD);
-	}
-	else
-	{
-		if (!change_dir(mini, cmd[1]))
-			print_error(ERROR_CD_DIRECTORY);
-	}
+    if (chdir(path) == -1)
+        print_error("cd");
+}
+
+void	ft_cd(t_program *mini, t_organize *program)
+{
+    if (program->args == NULL)
+        ft_cd_home(mini->env_list);
+    else if (ft_strncmp(program->args, "~", 1) == 0)
+        ft_cd_home(mini->env_list);
+    else if (ft_strncmp(program->args, "-", 1) == 0)
+        ft_cd_oldpwd(mini->env_list);
+    else
+        ft_cd_path(program->args);
 }

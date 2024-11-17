@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/15 22:18:17 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/16 23:34:52 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@
 # define ERROR_CD_HOME "cd: HOME not set"
 # define ERROR_CD_OLDPWD "cd: OLDPWD not set"
 # define ERROR_CD_DIRECTORY "cd: no such file or directory"
-
+# define ERROR_EXIT_ARGS "exit: too many arguments"	
+# define ERROR_EXIT_DIGIT "exit: numeric argument required"
 
 typedef struct s_var
 {
@@ -84,6 +85,9 @@ typedef struct s_program
 	struct s_env	*export_list;
 }		t_program;
 
+//builtin/cd.c
+//void		ft_cd(t_program *mini, t_organize *program);
+
 //echo/echo.c
 void		ft_echo(t_organize *program);
 
@@ -91,8 +95,15 @@ void		ft_echo(t_organize *program);
 void		ft_env(t_program *mini, t_organize *program);
 void		print_env_list(t_env *list);
 
+//builtin/exit.c
+int			ft_exit(t_organize *program, char *cmd);
+
 //pwd/pwd.c
 void		ft_pwd(t_organize *program);
+
+//builtin/unset.c
+//void		remove_env_var(t_program *mini, char *var);
+void		ft_unset(t_program *mini, t_organize *program);
 
 //clean/clean.c
 void		delete_list(t_env *list);
