@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:30:46 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/15 22:08:34 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/20 21:44:08 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ t_organize	*new_node(void)
 	new = malloc(sizeof(t_organize));
 	if (!new)
 		return (NULL);
+	new->fd_in = -1;
+	new->fd_out = -1;
+	new->list_pos = 0;
 	new->append_file = NULL;
 	new->args = NULL;
 	new->cmds = NULL;
@@ -81,7 +84,7 @@ void	save_path(t_program *mini, char **envp)
 	while (mini->path[++i])
 	{
 		tmp = ft_strjoin(mini->path[i], "/");
-		free (mini->path[i]);
+		free_ptr(mini->path[i]);
 		mini->path[i] = tmp;
 	}
 }
@@ -92,6 +95,8 @@ t_organize	*init_organize(t_program *mini)
 	t_organize	*list;
 
 	i = -1;
+	mini->pipes = pipes_counter(mini->user_input);
+	printf("pipes: %d\n", mini->pipes);
 	while (++i <= mini->pipes)
 	{
 		if (i == 0)
@@ -111,8 +116,8 @@ void	init_struct(t_program *mini, char **env)
 	mini->pwd = getcwd(0, 0);
 	mini->old_pwd = NULL;
 	mini->env_list = init_env(env);
+	//print_env_list(mini->env_list);
 	mini->export_list = init_env(env);
 	update_sh_lvl(mini->env_list);
 	update_sh_lvl(mini->export_list);
-	// print_env_list(mini->env_list);
 }

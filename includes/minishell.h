@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/19 23:47:55 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/21 20:03:11 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ typedef struct s_var
 
 typedef struct s_organize
 {
+	int					fd_in;
+	int					fd_out;
+	int					list_pos;
 	char				*input_file;
 	char				*output_file;
 	char				*append_file;
@@ -86,26 +89,28 @@ typedef struct s_program
 }		t_program;
 
 //builtin/cd.c
-//void		ft_cd(t_program *mini, t_organize *program);
+void		ft_cd(t_program *mini, t_organize *program);
 
-//echo/echo.c
+//builtin/echo.c
 void		ft_echo(t_organize *program);
 
 //builtin/env00.c
+
 void		ft_env(t_program *mini, t_organize *program);
 void		print_env_list(t_env *list);
 
 //builtin/exit.c
-int			ft_exit(t_organize *program, char *cmd);
+int			ft_exit(t_organize *program, char *str);
+int			check_exit_args(char *args);
+void		free_and_exit(t_organize *program, int status);
 
 //builtin/export.c
-void		ft_export(t_program *mini);
+void		ft_export(t_program *mini, t_organize *program);
 
-//pwd/pwd.c
+//builtin/pwd.c
 void		ft_pwd(t_organize *program);
 
 //builtin/unset.c
-//void		remove_env_var(t_program *mini, char *var);
 void		ft_unset(t_program *mini, t_organize *program);
 
 //clean/clean.c
@@ -116,15 +121,23 @@ void		free_program(t_program *mini); //old -> free_program(t_program *mini, t_or
 int			size_without_quotes(char *input);
 
 //env/env.c
-// void		print_env_list_test(t_env *list);
 void		add_env_node(t_env *node, t_env *new);
 t_env		*new_env_node(void);
 t_env		*init_env(char **env);
 
 //error/error.c
-void	print_error(char *cmd);
-void	ft_error_cmds(t_organize *program);
-void	ft_error_args(void);
+void		print_error(char *cmd);
+void		ft_error_cmds(t_organize *program);
+void		ft_error_args();
+
+//exec/execution.c
+void		ft_exec_builtin(t_organize *program, t_program *mini);
+int			is_builtin(char *command);
+void		redir_pipes(t_organize *program);
+void		executor(t_organize *program, t_program *mini);
+
+//exec/exec_utils.c
+int			exec_cmd(char *cmd, char *args, t_env *envp);
 
 //initialize/init.c
 void		print_list(t_organize *program);
@@ -133,7 +146,7 @@ t_organize	*init_organize(t_program *mini);
 void		init_struct(t_program *mini, char **env);
 
 //loop/loop.c
-int			mini_loop(t_program *mini); // old -> int mini_loop(t_program *mini, t_organize *program);
+int	mini_loop(t_program *mini, int fd1, int fd2); // old -> int mini_loop(t_program *mini, t_organize *program);
 
 //parser/new_split.c
 char		**ft_new_split(char *s, char c);
@@ -146,7 +159,8 @@ char		*fix_redir_spaces(char *input);
 int			parseline(t_program *mini);
 
 //parser/parsing.c
-void		parse_input(t_program *mini, t_organize *program);
+void		parse_input(char *str, t_organize *program);
+void		process_input(t_organize *program, char *str);
 
 //parser/quotes.c
 int			inside_quotes(char *input, int index);
@@ -154,6 +168,7 @@ char		*expand_variable(char *input, int *i);
 char		*expander(char *input);
 
 //utils/utils.c
+void		free_ptr(char *ptr);
 int			is_token(char c);
 int			ft_strcmp(const char *s1, const char *s2);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);

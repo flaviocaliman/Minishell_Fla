@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:32:32 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/11/20 02:32:46 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/21 20:27:36 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,11 @@ void	print_sorted_env_list(t_env *env_list)
 
     sort_env_array(env_array, count);
     print_env_array(env_array);
-    free(env_array);
+    if (env_array)
+    {
+        free_array(env_array);
+        env_array = NULL;
+    }
 }
 
 int	get_var_len(char *var)
@@ -135,7 +139,7 @@ int	get_var_len(char *var)
 
 void	update_env_node(t_env *tmp, char *var)
 {
-    free(tmp->content);
+    free_ptr(tmp->content);
     tmp->content = var;
 }
 
@@ -152,8 +156,6 @@ void	update_or_add_env_node(t_env **env_list, char *var, int replace)
         {
             if (replace)
                 update_env_node(tmp, var);
-            else
-                free(var);
             return;
         }
         tmp = tmp->next;
@@ -161,36 +163,38 @@ void	update_or_add_env_node(t_env **env_list, char *var, int replace)
     add_env_node(*env_list, new_env_node_with_content(var));
 }
 
-void	handle_export_args(t_program *mini, char **args)
+void	handle_export_args(t_program *mini, char *args)
 {
     int		i;
+    char    **args_array;
     char	*var;
     int		replace;
 
     i = 1;
-    while (args[i])
+    args_array = ft_new_split(args, ' ');
+    while (args_array[i])
     {
-        var = ft_strdup(args[i]);
+        var = ft_strdup(args_array[i]);
         replace = ft_strchr(var, '=') != NULL;
         update_or_add_env_node(&(mini->export_list), var, replace);
         if (replace)
             update_or_add_env_node(&(mini->env_list), var, replace);
+        free_ptr(var);
         i++;
-		free(var);
+    }
+    if (args_array)
+    {
+        free_array(args_array);
+        args_array = NULL;
     }
 }
 
-void	ft_export(t_program *mini)
-{
-    char	**args;
-
-    args = ft_split(mini->user_input, ' ');
-    if (args[1] == NULL)
+void	ft_export(t_program *mini, t_organize *program)
+{   
+    if (program->args == NULL)
     {
         print_sorted_env_list(mini->export_list);
-        free_array(args);
         return ;
     }
-    handle_export_args(mini, args);
-    free_array(args);
+    handle_export_args(mini, program->args);
 }

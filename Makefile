@@ -3,20 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caliman <caliman@student.42.fr>            +#+  +:+       +#+         #
+#    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/11/20 02:05:13 by caliman          ###   ########.fr        #
+#    Updated: 2024/11/21 19:36:23 by fgomes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Setup
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I includes -I libft -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -I includes -I libft #-fsanitize=address
 LIBFT_PATH = libft
 LIBFT = -Llibft -lft
-SRC =	src/builtin/echo.c \
+SRC =	src/builtin/cd.c \
+		src/builtin/echo.c \
 		src/builtin/env00.c \
 		src/builtin/exit.c \
 		src/builtin/export.c \
@@ -25,6 +26,8 @@ SRC =	src/builtin/echo.c \
 		src/clean/clean.c \
 		src/env/env.c \
 		src/error/error.c \
+		src/exec/execution.c \
+		src/exec/exec_utils.c \
 		src/initialize/init.c \
 		src/loop/mini_loop.c \
 		src/parser/new_split.c \

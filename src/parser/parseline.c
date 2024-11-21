@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseline.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 15:24:31 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/14 19:50:36 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/20 21:51:48 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*remove_quotes(char *input)
 			new_input[var.j++] = input[var.i];
 	}
 	new_input[var.j] = '\0';
-	free(input);
+	free_ptr(input);
 	return (new_input);
 }
 
@@ -85,10 +85,14 @@ char	*alloc_with_spaces(char *input)
 
 bool	duplicates(char *str)
 {
-	if (ft_strnstr(str, "||", ft_strlen(str))
-		|| ft_strnstr(str, "&&", ft_strlen(str)))
+	if (ft_strnstr(str, "||", ft_strlen(str)))
 	{
-		ft_putstr_fd("This program doesn't handle || or && \n", STDERR);
+		ft_printf("minishell: syntax error near unexpected token `||'\n");
+		return (true);
+	}
+	else if (ft_strnstr(str, "&&", ft_strlen(str)))
+	{
+		ft_printf("minishell: syntax error near unexpected token `&&'\n");
 		return (true);
 	}
 	return (false);
@@ -118,7 +122,7 @@ char	*fix_redir_spaces(char *input)
 			if (i > 0 && !ft_isspaces(input[i - 1])) // verifica se o char anterior não é um espaço
 				new_input[j++] = ' '; // adiciona um espaço
 			new_input[j++] = input[i];  // adiciona o redirecionador
-			if ((is_token(input[i + 1])) && input[i] != '|') // verifica se o proximo char é um redirecionador e o char atual não é um pipe
+			if (((is_token(input[i + 1])) && input[i] != '|' && input[i + 1] != '|')) // verifica se o proximo char é um redirecionador e o char atual não é um pipe
 				new_input[j++] = input[++i];
 			if (!ft_isspaces(input[i + 1]) && input[i + 1]) // verifica se o proximo char é um espaço, caso não seja, adiciona um espaço
 				new_input[j++] = ' ';
@@ -133,23 +137,27 @@ char	*fix_redir_spaces(char *input)
 int	parseline(t_program *mini)
 {
 	char	*tmp;
-
-	tmp = readline("minishell$ ");
-	add_history(tmp);
+	tmp = readline("minishell$>");
+	ft_printf("entrei no parseline\n");
+	if (tmp && tmp[0])
+		add_history(tmp);
 	if (!tmp)
+	{
+		ft_printf("exit\n");
 		exit(EXIT_SUCCESS);
+	}
 	if (duplicates(tmp))
 	{
-		free(tmp);
-		return (EXIT_FAILURE);
+		free_ptr(tmp);
+		return (2);
 	}
 	mini->user_input = ft_strtrim(tmp, " ");
 	if (!mini->user_input)
 		exit(EXIT_SUCCESS);
-	free(tmp);
+	free_ptr(tmp);
 	tmp = fix_redir_spaces(mini->user_input);
-	free(mini->user_input);
+	free_ptr(mini->user_input);
 	mini->user_input = expander(tmp);
-	free(tmp);
+	free_ptr(tmp);
 	return (EXIT_SUCCESS);
 }
