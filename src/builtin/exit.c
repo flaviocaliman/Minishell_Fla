@@ -6,12 +6,13 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/21 19:05:03 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:07:09 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Função para verificar se um caractere é um dígito.
 static	bool ft_isnumber(char str)
 {
 	if (!str)
@@ -23,62 +24,66 @@ static	bool ft_isnumber(char str)
 
 void	free_and_exit(t_organize *pgr, int status)
 {
-	if (pgr)
-		free_organize(pgr);
-	exit(status);
+    free_organize(pgr);
+    exit(status);
 }
 
-int	check_exit_args(char *arg)
+int	check_exit_args(char **args)
 {
-	int		i;
-	char	**args_array;
-	
-	args_array = ft_new_split(arg, ' ');
-	if (args_array[1])
-	{
-		print_error(ERROR_EXIT_ARGS);
-		return (EXIT_FAILURE);
-	}
-	if (args_array[0])
-	{
-		i = 0;
-		while (args_array[0][i])
-		{
-			if (args_array[0][0] == '-' || args_array[0][0] == '+')
-				i++;
-			if (!ft_isnumber(args_array[0][i]))
-			{
-				print_error(ERROR_EXIT_DIGIT);
-				return (EXIT_SUCCESS);
-			}
-			i++;
-		}
-	}
-	if (args_array)
-		free_array(args_array);
-	return (EXIT_SUCCESS);
+    int	i;
+
+    printf("entrou na check_exit_args\n");
+	if (!args[0])
+		return (EXIT_SUCCESS);
+    if (args[1])
+    {
+        print_error(ERROR_EXIT_ARGS);
+        return (EXIT_FAILURE);
+    }
+    if (args[0])
+    {
+        i = 0;
+        while (args[0][i])
+        {
+            if (args[0][0] == '-' || args[0][0] == '+')
+                i++;
+            else
+            {
+                printf("args[0][%d]: %c\n", i, args[0][i]);
+                if (!ft_isnumber(args[0][i]))
+                {
+                    print_error(ERROR_EXIT_DIGIT);
+                    return (EXIT_SUCCESS);   
+                }
+                else
+                    i++;
+            }
+        }
+    }
+    return (EXIT_SUCCESS);
 }
 
 int	ft_exit(t_organize *program, char *str)
 {
-	char	*arg;
+    char	**args;
 
-	arg = str;
-	if (program->cmds[4])
+    if (program->cmds[4])
+    {
+        ft_error_cmds(program);
+        return (EXIT_FAILURE);
+    }
+    else if (!str)
 	{
-		ft_error_cmds(program);
-		return (EXIT_FAILURE);
+	    free_organize(program);
+		return (EXIT_SUCCESS);
 	}
-	if (arg)
+    args = ft_new_split(str, ' ');
+    if (args[0] && check_exit_args(args) == EXIT_FAILURE)
 	{
-		if (check_exit_args(arg) == EXIT_FAILURE)
-		{
-			if (arg)
-				free_ptr(arg);
-			return (EXIT_FAILURE);
-		}
+		free_array(args);
+        return (EXIT_FAILURE);
 	}
-	// if (program)
-	// 	free_organize(program);
-	return (EXIT_SUCCESS);
+    free_organize(program);
+	free_array(args);
+    return (EXIT_SUCCESS);
 }

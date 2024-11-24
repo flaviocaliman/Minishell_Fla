@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:38:43 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/21 17:56:01 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:21:48 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void ft_exec_builtin(t_organize *program, t_program *mini)
 	else if (ft_strcmp(program->cmds, "env") == 0)
 		print_env_list(mini->env_list);
 	else if (ft_strcmp(program->cmds, "export") == 0)
-		ft_export(mini);
-	else if (ft_strcmp(program->cmds, "exit") == 0)
-		ft_exit(program, program->args);
+		ft_export(mini, program->args);
 
 }
 
@@ -68,7 +66,7 @@ void	redir_pipes(t_organize *program)
 void executor(t_organize *program, t_program *mini)
 {
     t_organize *tmp = program;
-    int fd[2];
+    int *fd[2];
     int in_fd = STDIN; // Entrada inicial, geralmente stdin
     pid_t pid;
 
@@ -79,14 +77,7 @@ void executor(t_organize *program, t_program *mini)
             perror("pipe");
             exit(EXIT_FAILURE);
         }
-
-        pid = fork();
-        if (pid < 0)
-        {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        }
-
+		while (tmp)
 		if (pid == 0) // Processo filho
 		{
 			if (tmp->fd_in != -1)
@@ -97,10 +88,6 @@ void executor(t_organize *program, t_program *mini)
 				dup2(tmp->fd_out, STDOUT);
 			else if (tmp->next)
 				dup2(fd[1], STDOUT);
-
-			// close(fd[0]); // Fecha leitura do pipe no filho
-			// close(fd[1]);
-	
 			if (is_builtin(tmp->cmds))
 			{
 				ft_exec_builtin(tmp, mini);
