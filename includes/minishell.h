@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/24 22:59:51 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/25 20:21:49 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 # define ERROR_CD_DIRECTORY "cd: no such file or directory"
 # define ERROR_EXIT_ARGS "exit: too many arguments"	
 # define ERROR_EXIT_DIGIT "exit: numeric argument required"
+
+extern int	g_exit_status;
 
 typedef struct s_var
 {
@@ -109,16 +111,30 @@ void		ft_echo(t_organize *program);
 void		add_env_node(t_env *node, t_env *new);
 t_env		*new_env_node(void);
 t_env		*init_env(char **env);
-void		ft_env(t_env *env_list, t_organize *program);
 void		print_env_list(t_env *list);
-
-//builtin/export.c
-void		ft_export(t_env *env_list, char *input);
+void		ft_env(t_env *env_list, t_organize *program);
 
 //builtin/exit.c
 void		free_and_exit(t_organize *pgr, int status);
 int			check_exit_args(char **args);
 int			ft_exit(t_organize *program, char *str);
+
+//builtin/export00.c
+int			get_var_len(char *var);
+void		update_env_node(t_env *tmp, char *var);
+void		update_or_add_env_node(t_env **env_list, char *var, int replace);
+void		handle_export_args(t_env *env_list, char **args);
+void		ft_export(t_env *env_list, char *input);
+
+//builtin/export01.c
+void		sort_env_array(char **env_array, int count);
+int			count_env_list(t_env *env_list);
+char		**create_env_array(t_env *env_list, int count);
+void		print_env_array(char **env_array);
+void		print_sorted_env_list(t_env *env_list);
+
+//builtin/export02.c
+t_env		*new_env_node_with_content(char *content);
 
 //builtin/pwd.c
 void		ft_pwd(t_organize *program);
@@ -133,11 +149,6 @@ void		free_array(char **array);
 void		free_organize(t_organize *program);
 void		free_program(t_program *mini); //old -> free_program(t_program *mini, t_organize *program);
 int			size_without_quotes(char *input);
-
-//env/env.c
-void		add_env_node(t_env *node, t_env *new);
-t_env		*new_env_node(void);
-t_env		*init_env(char **env);
 
 //error/error.c
 void		print_error(char *cmd);
@@ -170,16 +181,16 @@ int			size_without_quotes(char *input);
 char		*remove_quotes(char *input);
 int			ft_isspaces(char c);
 char		*fix_redir_spaces(char *input);
-int			parse_readline(char **input);
+int			parse_readline(char **input, t_env *env);
 
 //parser/parsing.c
-void		parse_organize(t_organize *program, char *str);
-void		process_input(t_organize *program, char **str);
+int			parse_organize(t_organize *program, char *str);
+int			process_input(t_organize *program, char **str);
 
 //parser/quotes.c
 int			inside_quotes(char *input, int index);
-char		*expand_variable(char *input, int *i);
-char		*expander(char *input);
+char		*expand_variable(char *input, int *i, t_env *env);
+char		*expander(char *input, t_env *env);
 
 //utils/utils.c
 void		free_ptr(char *ptr);
@@ -191,4 +202,5 @@ void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		*ft_strcpy(char *src);
 int			pipes_counter(char *str);
 void		update_sh_lvl(t_env *env);
+
 #endif

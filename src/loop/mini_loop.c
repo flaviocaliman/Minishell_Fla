@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/24 23:25:41 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/25 17:44:12 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,15 @@ int	mini_loop(t_program *mini, int fd1, int fd2)
 		program = NULL;
 		reset_fd_signals(fd1, fd2);
 		input = readline("minishell$ ");
-		if (parse_readline(&input) == 0)
+		if (parse_readline(&input, mini->env_list) == 0)
 		{
 			program = init_organize(input);
-			parse_organize(program, input);
+			if (parse_organize(program, input) == 1)
+			{
+				free_organize(program);
+				free_ptr(input);
+				continue ;
+			}
 			printf("cmds: %s\n", program->cmds);
 			if (run_builtin(mini, program, input))
 				break;
