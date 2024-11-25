@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/24 16:22:31 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:59:51 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void		ft_cd(t_env *env_list, t_organize *program);
 t_env		*ft_get_env(t_env *env_list, char *name);
 void		ft_update_env(t_env *env_list, char *name, char *value, int replace);
 
-
 //builtin/cd01.c
 void		update_env_vars(t_env *env_list, char *dir, int size);
 void		handle_home_directory(t_env *env_list);
@@ -113,7 +112,6 @@ t_env		*init_env(char **env);
 void		ft_env(t_env *env_list, t_organize *program);
 void		print_env_list(t_env *list);
 
-
 //builtin/export.c
 void		ft_export(t_env *env_list, char *input);
 
@@ -121,7 +119,6 @@ void		ft_export(t_env *env_list, char *input);
 void		free_and_exit(t_organize *pgr, int status);
 int			check_exit_args(char **args);
 int			ft_exit(t_organize *program, char *str);
-
 
 //builtin/pwd.c
 void		ft_pwd(t_organize *program);
