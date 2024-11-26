@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/25 20:21:49 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:37:02 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_var
 	int		inside;
 	int		size;
 	char 	c;
+	char	*new_str;
 	char 	*str;
 } t_var;
 
@@ -82,7 +83,6 @@ typedef struct s_env
 	struct s_env	*prev;
 }		t_env;
 
-//main struct
 typedef struct s_program
 {
 	int				pipes;
@@ -156,13 +156,15 @@ void		ft_error_cmds(t_organize *program);
 void		ft_error_args(char *str);
 
 //exec/execution.c
-void		ft_exec_builtin(t_organize *program, t_program *mini);
 int			is_builtin(char *command);
 void		redir_pipes(t_organize *program);
 void		executor(t_organize *program, t_program *mini);
 
 //exec/exec_utils.c
 int			exec_cmd(char *cmd, char *args, t_env *envp);
+
+//heredoc/heredoc.c
+int			heredoc(char *input, t_env *env);
 
 //initialize/init.c
 void		print_list(t_organize *program);
@@ -171,21 +173,25 @@ t_organize	*init_organize(char *input);
 void		init_struct(t_program *mini, char **env);
 
 //loop/loop.c
-int	mini_loop(t_program *mini, int fd1, int fd2); // old -> int mini_loop(t_program *mini, t_organize *program);
+int			run_builtin(t_program *mini, t_organize *program, char *input);
+int			mini_loop(t_program *mini, int fd1, int fd2);
 
 //parser/new_split.c
 char		**ft_new_split(char *s, char c);
 
-//parser/parseline.c
+//parser/parseline_utils.c
 int			size_without_quotes(char *input);
 char		*remove_quotes(char *input);
+char		*alloc_with_spaces(char *input);
+
+//parser/parseline.c
 int			ft_isspaces(char c);
 char		*fix_redir_spaces(char *input);
 int			parse_readline(char **input, t_env *env);
 
 //parser/parsing.c
-int			parse_organize(t_organize *program, char *str);
-int			process_input(t_organize *program, char **str);
+int			parse_organize(t_organize *program, char *str, t_env *env);
+int			process_input(t_organize *program, char **str, t_env *env);
 
 //parser/quotes.c
 int			inside_quotes(char *input, int index);

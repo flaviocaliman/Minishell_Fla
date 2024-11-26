@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/25 17:44:12 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:33:58 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	run_builtin(t_program *mini, t_organize *program, char *input)
 		if (exit_return == EXIT_SUCCESS)
 		{
 			free_ptr(input);
-			return 1;
+			exit (g_exit_status);
 		}
+		else
+			exit (g_exit_status);
 	}
-	return 0;
+	return (0);
 }
 
 void	reset_fd_signals(int const fd, int const fd1)
@@ -55,13 +57,14 @@ int	mini_loop(t_program *mini, int fd1, int fd2)
 
 	while (mini->loop == 0)
 	{
+		
 		program = NULL;
 		reset_fd_signals(fd1, fd2);
 		input = readline("minishell$ ");
 		if (parse_readline(&input, mini->env_list) == 0)
 		{
 			program = init_organize(input);
-			if (parse_organize(program, input) == 1)
+			if (parse_organize(program, input, mini->env_list) == 1)
 			{
 				free_organize(program);
 				free_ptr(input);
@@ -69,7 +72,7 @@ int	mini_loop(t_program *mini, int fd1, int fd2)
 			}
 			printf("cmds: %s\n", program->cmds);
 			if (run_builtin(mini, program, input))
-				break;
+				break ;
 			//executor(program, mini);
 			free_organize(program);
 			free_ptr(input);
@@ -78,4 +81,3 @@ int	mini_loop(t_program *mini, int fd1, int fd2)
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
-

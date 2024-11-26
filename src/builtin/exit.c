@@ -6,14 +6,13 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/25 18:31:14 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:35:22 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Função para verificar se um caractere é um dígito.
-static	bool ft_isnumber(char str)
+static bool	ft_isnumber(char str)
 {
 	if (!str)
 		return (false);
@@ -28,14 +27,17 @@ void	free_and_exit(t_organize *pgr, int status)
 	exit(status);
 }
 
+
+
 int	check_exit_args(char **args)
 {
 	int	i;
 
-	if (!args[0])
-		return (EXIT_SUCCESS);
+	// if (!args[0])
+	// 	return (EXIT_SUCCESS);
 	if (args[1])
 	{
+		g_exit_status = 1;
 		print_error(ERROR_EXIT_ARGS);
 		return (EXIT_FAILURE);
 	}
@@ -44,17 +46,27 @@ int	check_exit_args(char **args)
 		i = 0;
 		while (args[0][i])
 		{
-			if (args[0][0] == '-' || args[0][0] == '+')
+			if ((args[0][0] == '-' || args[0][0] == '+') && i == 0)
+			{
 				i++;
+				if (args[0][0] == '-' && (args[0][i] >= '0' && args[0][i] <= '9') && ft_atoi(&args[0][i]) != 0)
+					g_exit_status = 256 - ft_atoi(&args[0][i]);
+				else if (args[0][0] == '+' && (args[0][i] >= '0' && args[0][i] <= '9') && ft_atoi(&args[0][i]) != 0)
+					g_exit_status = ft_atoi(&args[0][i]);
+			}
 			else
 			{
 				if (!ft_isnumber(args[0][i]))
 				{
 					print_error(ERROR_EXIT_DIGIT);
-					return (EXIT_SUCCESS);   
+					g_exit_status = 2;
+					return (EXIT_FAILURE);
 				}
 				else
+				{
+					g_exit_status = ft_atoi(args[0]);
 					i++;
+				}
 			}
 		}
 	}
@@ -67,11 +79,13 @@ int	ft_exit(t_organize *program, char *str)
 
 	if (program->cmds[4])
 	{
+		g_exit_status = 127;
 		ft_error_cmds(program);
 		return (EXIT_FAILURE);
 	}
 	else if (!str)
 	{
+		g_exit_status = 0;
 		free_organize(program);
 		return (EXIT_SUCCESS);
 	}
