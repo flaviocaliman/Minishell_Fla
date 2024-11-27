@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/26 20:35:22 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/27 20:03:12 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	check_exit_args(char **args)
 	// 	return (EXIT_SUCCESS);
 	if (args[1])
 	{
-		g_exit_status = 1;
-		print_error(ERROR_EXIT_ARGS);
+		ft_error_args("ERROR_EXIT_ARGS", 1);
 		return (EXIT_FAILURE);
 	}
 	if (args[0])

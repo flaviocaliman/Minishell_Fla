@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/26 16:37:02 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:42:36 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,9 +151,9 @@ void		free_program(t_program *mini); //old -> free_program(t_program *mini, t_or
 int			size_without_quotes(char *input);
 
 //error/error.c
-void		print_error(char *cmd);
-void		ft_error_cmds(t_organize *program);
-void		ft_error_args(char *str);
+void		print_error(char *cmd, int status);
+void		ft_error_cmds(t_organize *program, int status);
+void		ft_error_args(char *str, int status);
 
 //exec/execution.c
 int			is_builtin(char *command);
