@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/28 02:24:06 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/28 22:19:53 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,35 @@ int	run_builtin(t_program *mini, t_organize *program, char *input, int fd1, int 
 	int	exit_return;
 
 	exit_return = 0;
-	if (ft_strncmp(program->cmds, "unset", 5) == 0)
+	if (ft_strcmp(program->cmds, "unset") == 0)
 		ft_unset(mini->env_list, program);
-	else if (ft_strncmp(program->cmds, "export", 6) == 0)
+	else if (ft_strcmp(program->cmds, "export") == 0)
 		ft_export(mini->env_list, program->args);
-	else if (ft_strncmp(program->cmds, "env", 3) == 0)
+	else if (ft_strcmp(program->cmds, "env") == 0)
 		ft_env(mini->env_list, program);
-	else if (ft_strncmp(program->cmds, "echo", 4) == 0)
+	else if (ft_strcmp(program->cmds, "echo") == 0)
 		ft_echo(program);
-	else if (ft_strncmp(program->cmds, "cd", 2) == 0)
+	else if (ft_strcmp(program->cmds, "cd") == 0)
 		ft_cd(mini->env_list, program);
-	else if (ft_strncmp(program->cmds, "pwd", 3) == 0)
+	else if (ft_strcmp(program->cmds, "pwd") == 0)
 		ft_pwd(program);
-	else if (ft_strncmp(program->cmds, "exit", 4) == 0)
+	else if (ft_strcmp(program->cmds, "exit") == 0)
 	{
 		exit_return = ft_exit(program, program->args);
 		if (exit_return == EXIT_SUCCESS)
 		{
 			free_ptr(input);
 			free_program(mini);
-			close(fd1);
-			close(fd2);
 			exit (g_exit_status);
 		}
 		else
 		{
-			close(fd1);
-			close(fd2);
 			free_ptr(input);
 			free_program(mini);
 		}
 	}
+	// else
+	// 	print_error(ERROR_CMD_NOT_FOUND, 127);
 	return (0);
 }
 
