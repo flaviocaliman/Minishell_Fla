@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/27 20:03:12 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/28 02:23:26 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	check_exit_args(char **args)
 	// 	return (EXIT_SUCCESS);
 	if (args[1])
 	{
-		ft_error_args("ERROR_EXIT_ARGS", 1);
+		ft_putstr_fd("exit\n", STDERR);
+		print_error(ERROR_EXIT_ARGS, 1);
 		return (EXIT_FAILURE);
 	}
 	if (args[0])
@@ -57,9 +58,8 @@ int	check_exit_args(char **args)
 			{
 				if (!ft_isnumber(args[0][i]))
 				{
-					print_error(ERROR_EXIT_DIGIT);
-					g_exit_status = 2;
-					return (EXIT_FAILURE);
+					ft_error_args(args[0], 2);
+					return (EXIT_SUCCESS);
 				}
 				else
 				{
@@ -78,9 +78,9 @@ int	ft_exit(t_organize *program, char *str)
 
 	if (program->cmds[4])
 	{
-		g_exit_status = 127;
-		ft_error_cmds(program);
-		return (EXIT_FAILURE);
+		printf("exit\n");
+		ft_error_cmds(program, 127);
+		return (EXIT_SUCCESS);
 	}
 	else if (!str)
 	{
@@ -92,6 +92,7 @@ int	ft_exit(t_organize *program, char *str)
 	if (args[0] && check_exit_args(args) == EXIT_FAILURE)
 	{
 		free_array(args);
+		free_organize(program);
 		return (EXIT_FAILURE);
 	}
 	free_organize(program);

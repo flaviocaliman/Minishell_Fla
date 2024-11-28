@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:39:34 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/26 16:46:44 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/28 01:41:30 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		free_array(input);
 		return (1);
 	}
-	ft_printf("cheguei aqui\n");
 	i = -1;
 	while (input[++i])
 	{

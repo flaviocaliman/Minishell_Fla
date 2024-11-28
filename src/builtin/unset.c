@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:35:08 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/11/25 18:42:42 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/28 01:22:04 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_unset(t_env *env_list, t_organize *program)
 	char	**cmd_args;
 
 	if (program->cmds[5])
-		ft_error_cmds(program);
+		ft_error_cmds(program, 127);
 	else if (!program->args)
 		return ;
 	else

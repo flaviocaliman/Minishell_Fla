@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/26 20:33:58 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/28 02:24:06 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	run_builtin(t_program *mini, t_organize *program, char *input)
+int	run_builtin(t_program *mini, t_organize *program, char *input, int fd1, int fd2)
 {
 	int	exit_return;
 
@@ -35,10 +35,18 @@ int	run_builtin(t_program *mini, t_organize *program, char *input)
 		if (exit_return == EXIT_SUCCESS)
 		{
 			free_ptr(input);
+			free_program(mini);
+			close(fd1);
+			close(fd2);
 			exit (g_exit_status);
 		}
 		else
-			exit (g_exit_status);
+		{
+			close(fd1);
+			close(fd2);
+			free_ptr(input);
+			free_program(mini);
+		}
 	}
 	return (0);
 }
@@ -71,7 +79,7 @@ int	mini_loop(t_program *mini, int fd1, int fd2)
 				continue ;
 			}
 			printf("cmds: %s\n", program->cmds);
-			if (run_builtin(mini, program, input))
+			if (run_builtin(mini, program, input, fd1, fd2))
 				break ;
 			//executor(program, mini);
 			free_organize(program);

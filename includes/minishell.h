@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/27 18:42:36 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/28 02:18:34 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 # define ERROR_CD_HOME "cd: HOME not set"
 # define ERROR_CD_OLDPWD "cd: OLDPWD not set"
 # define ERROR_CD_DIRECTORY "cd: no such file or directory"
+# define ERROR_CD_OPTION "invalid option"
+# define ERROR_ENV_ARGS "env: dont accept arguments"
 # define ERROR_EXIT_ARGS "exit: too many arguments"	
 # define ERROR_EXIT_DIGIT "exit: numeric argument required"
 
@@ -154,6 +156,8 @@ int			size_without_quotes(char *input);
 void		print_error(char *cmd, int status);
 void		ft_error_cmds(t_organize *program, int status);
 void		ft_error_args(char *str, int status);
+void		ft_error_opt(char *str, int status);
+void		ft_error_dir(char *dir, int status);
 
 //exec/execution.c
 int			is_builtin(char *command);
@@ -167,13 +171,13 @@ int			exec_cmd(char *cmd, char *args, t_env *envp);
 int			heredoc(char *input, t_env *env);
 
 //initialize/init.c
-void		print_list(t_organize *program);
+//void		print_list(t_organize *program);
 void		save_path(t_program *mini, char **envp);
 t_organize	*init_organize(char *input);
 void		init_struct(t_program *mini, char **env);
 
 //loop/loop.c
-int			run_builtin(t_program *mini, t_organize *program, char *input);
+int			run_builtin(t_program *mini, t_organize *program, char *input, int fd1, int fd2);
 int			mini_loop(t_program *mini, int fd1, int fd2);
 
 //parser/new_split.c
