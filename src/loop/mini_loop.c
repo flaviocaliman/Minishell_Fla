@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/28 22:19:53 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/29 02:35:37 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	run_builtin(t_program *mini, t_organize *program, char *input, int fd1, int fd2)
+int	run_builtin(t_program *mini, t_organize *program, char *input)
 {
 	int	exit_return;
 
@@ -32,20 +32,12 @@ int	run_builtin(t_program *mini, t_organize *program, char *input, int fd1, int 
 	else if (ft_strcmp(program->cmds, "exit") == 0)
 	{
 		exit_return = ft_exit(program, program->args);
+		printf("g_exit_status: %d\n", g_exit_status);
+		free_program(mini);
+		free_ptr(input);
 		if (exit_return == EXIT_SUCCESS)
-		{
-			free_ptr(input);
-			free_program(mini);
 			exit (g_exit_status);
-		}
-		else
-		{
-			free_ptr(input);
-			free_program(mini);
-		}
 	}
-	// else
-	// 	print_error(ERROR_CMD_NOT_FOUND, 127);
 	return (0);
 }
 
@@ -77,7 +69,7 @@ int	mini_loop(t_program *mini, int fd1, int fd2)
 				continue ;
 			}
 			printf("cmds: %s\n", program->cmds);
-			if (run_builtin(mini, program, input, fd1, fd2))
+			if (run_builtin(mini, program, input))
 				break ;
 			//executor(program, mini);
 			free_organize(program);

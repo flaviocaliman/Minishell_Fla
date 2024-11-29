@@ -6,7 +6,7 @@
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/28 02:18:34 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/29 01:06:05 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void		ft_env(t_env *env_list, t_organize *program);
 
 //builtin/exit.c
 void		free_and_exit(t_organize *pgr, int status);
-int			check_exit_args(char **args);
+void		check_exit_args(char **args);
 int			ft_exit(t_organize *program, char *str);
 
 //builtin/export00.c
@@ -158,6 +158,7 @@ void		ft_error_cmds(t_organize *program, int status);
 void		ft_error_args(char *str, int status);
 void		ft_error_opt(char *str, int status);
 void		ft_error_dir(char *dir, int status);
+void		ft_error_dig(char *str, int status);
 
 //exec/execution.c
 int			is_builtin(char *command);
@@ -177,7 +178,7 @@ t_organize	*init_organize(char *input);
 void		init_struct(t_program *mini, char **env);
 
 //loop/loop.c
-int			run_builtin(t_program *mini, t_organize *program, char *input, int fd1, int fd2);
+int			run_builtin(t_program *mini, t_organize *program, char *input);
 int			mini_loop(t_program *mini, int fd1, int fd2);
 
 //parser/new_split.c
