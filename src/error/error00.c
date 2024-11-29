@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error00.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:40:54 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/29 01:17:27 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/29 20:25:40 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,6 @@ void	ft_error_args(char *str, int status)
 void	ft_error_opt(char *str, int status)
 {
 	ft_printf("minishell: cd: %s: invalid option", str);
-	ft_putstr_fd("\n", STDERR);
-	g_exit_status = status;
-	return ;
-}
-
-void	ft_error_dig(char *str, int status)
-{
-	ft_printf("minishell: exit: %s: numeric argument required", str);
 	ft_putstr_fd("\n", STDERR);
 	g_exit_status = status;
 	return ;

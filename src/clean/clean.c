@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:25:00 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/26 16:29:02 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/29 21:45:01 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ void	free_array(char **array)
 		free(array[i]);
 	free(array);
 }
+void	free_program(t_program *mini)
+{
+	t_program	*tmp;
+
+	tmp = mini;
+	if (tmp->env_list)
+		delete_list(tmp->env_list);
+	if (tmp)
+		free(tmp);
+}
 
 void	free_organize(t_organize *program)
 {
@@ -60,14 +70,14 @@ void	free_organize(t_organize *program)
 	{
 		tmp = program;
 		program = program->next;
-		if (tmp->input_file)
-			free_ptr(tmp->input_file);
-		if (tmp->output_file)
-			free_ptr(tmp->output_file);
-		if (tmp->append_file)
-			free_ptr(tmp->append_file);
-		if (tmp->heredoc_dlm)
-			free_ptr(tmp->heredoc_dlm);
+		// if (tmp->input_file)
+		// 	free_ptr(tmp->input_file);
+		// if (tmp->output_file)
+		// 	free_ptr(tmp->output_file);
+		// if (tmp->append_file)
+		// 	free_ptr(tmp->append_file);
+		// if (tmp->heredoc_dlm)
+		// 	free_ptr(tmp->heredoc_dlm);
 		if (tmp->cmds)
 			free_ptr(tmp->cmds);
 		if (tmp->args)
@@ -75,15 +85,4 @@ void	free_organize(t_organize *program)
 		if (tmp)
 			free(tmp);
 	}
-}
-
-void	free_program(t_program *mini)
-{
-	free_array(mini->path);
-	free_ptr(mini->pwd);
-	free_ptr(mini->old_pwd);
-	delete_list(mini->env_list);
-	delete_list(mini->export_list);
-	if (mini->user_input)
-		free_ptr(mini->user_input);
 }

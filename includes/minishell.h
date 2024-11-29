@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/29 01:06:05 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/29 21:51:52 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@
 # define META_CHARS "<>|"
 # define ON 0
 # define OFF 1
+# define MAIN 0
+# define CHILD 1
+# define HERE_DOC 2
+# define PIPE 3
+# define IGNORE 4
 
 # define PATH_MAX 4096
 # define EXIT_SUCCESS 0
@@ -88,14 +93,11 @@ typedef struct s_env
 typedef struct s_program
 {
 	int				pipes;
-	int				loop;
-	char			**path;
-	char			*user_input;
-	char			*pwd;
-	char			*old_pwd;
 	struct s_env	*env_list;
-	struct s_env	*export_list;
 }		t_program;
+
+//builtin/builtin.c
+int			run_builtin(t_program *mini, t_organize *program);
 
 //builtin/cd00.c
 void		ft_cd(t_env *env_list, t_organize *program);
@@ -149,37 +151,36 @@ void		delete_node(t_env *node);
 void		delete_list(t_env *list);
 void		free_array(char **array);
 void		free_organize(t_organize *program);
-void		free_program(t_program *mini); //old -> free_program(t_program *mini, t_organize *program);
 int			size_without_quotes(char *input);
 
-//error/error.c
+//error/error00.c
 void		print_error(char *cmd, int status);
 void		ft_error_cmds(t_organize *program, int status);
+void		ft_error_dir(char *dir, int status);
 void		ft_error_args(char *str, int status);
 void		ft_error_opt(char *str, int status);
-void		ft_error_dir(char *dir, int status);
-void		ft_error_dig(char *str, int status);
+
+//error/error01.c
+void		ft_error_digit(char *str, int status);
 
 //exec/execution.c
+void		exec_one_cmd(t_program *mini, t_organize *program);
 int			is_builtin(char *command);
 void		redir_pipes(t_organize *program);
 void		executor(t_organize *program, t_program *mini);
 
 //exec/exec_utils.c
+int			ft_list_size(t_organize *program);
 int			exec_cmd(char *cmd, char *args, t_env *envp);
 
 //heredoc/heredoc.c
 int			heredoc(char *input, t_env *env);
 
 //initialize/init.c
-//void		print_list(t_organize *program);
-void		save_path(t_program *mini, char **envp);
-t_organize	*init_organize(char *input);
-void		init_struct(t_program *mini, char **env);
+t_organize	*init_organize(char *input, t_program *mini);
 
 //loop/loop.c
-int			run_builtin(t_program *mini, t_organize *program, char *input);
-int			mini_loop(t_program *mini, int fd1, int fd2);
+int			mini_loop(t_program *mini);
 
 //parser/new_split.c
 char		**ft_new_split(char *s, char c);
@@ -202,6 +203,13 @@ int			process_input(t_organize *program, char **str, t_env *env);
 int			inside_quotes(char *input, int index);
 char		*expand_variable(char *input, int *i, t_env *env);
 char		*expander(char *input, t_env *env);
+
+//signals/signal.c
+void		sigint_handler(int signum);
+void		signals_loop(void);
+
+//signals/signals.c
+void		ft_handle_signals(int id);
 
 //utils/utils.c
 void		free_ptr(char *ptr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:39:34 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/28 01:41:30 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/29 18:24:04 by gcampos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	remove_quotes_list(t_organize **program)
 		printf("cmds[%d]rmq: %s\n", tmp->list_pos, tmp->cmds);
 		if (tmp->args)
 			tmp->args = remove_quotes(tmp->args);
-		if (tmp->input_file)
-			tmp->input_file = remove_quotes(tmp->input_file);
-		if (tmp->output_file)
-			tmp->output_file = remove_quotes(tmp->output_file);
-		if (tmp->append_file)
-			tmp->append_file = remove_quotes(tmp->append_file);
-		if (tmp->heredoc_dlm)
-			tmp->heredoc_dlm = remove_quotes(tmp->heredoc_dlm);
+		// if (tmp->input_file)
+		// 	tmp->input_file = remove_quotes(tmp->input_file);
+		// if (tmp->output_file)
+		// 	tmp->output_file = remove_quotes(tmp->output_file);
+		// if (tmp->append_file)
+		// 	tmp->append_file = remove_quotes(tmp->append_file);
+		// if (tmp->heredoc_dlm)
+		// 	tmp->heredoc_dlm = remove_quotes(tmp->heredoc_dlm);
 		tmp = tmp->next;
 	}
 }
@@ -109,6 +109,7 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		free_array(input);
 		return (1);
 	}
+	ft_printf("cheguei aqui\n");
 	i = -1;
 	while (input[++i])
 	{
@@ -155,16 +156,18 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		}
 		else
 		{
-			input[i] = remove_quotes(input[i]);
-			tmp->cmds = ft_strdup(input[i]);
-			printf("cmd_split[%d]: %s\n", tmp->list_pos, tmp->cmds);
-			while (input[i + 1] && !is_token(input[i + 1][0]))
+			if (tmp->cmds == NULL)
 			{
-				i++;
+				input[i] = remove_quotes(input[i]);
+				tmp->cmds = ft_strdup(input[i]);
+				printf("cmd_split[%d]: %s\n", tmp->list_pos, tmp->cmds);
+			}
+			else
+			{
 				input[i] = remove_quotes(input[i]);
 				tmp->args = copy_args(tmp->args, input[i]);
+				printf("args_split[%d]: %s\n", tmp->list_pos, tmp->args);
 			}
-			printf("args_split[%d]: %s\n", tmp->list_pos, tmp->args);
 		}
 	}
 	free_array(input);

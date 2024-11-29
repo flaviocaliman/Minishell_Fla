@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd00.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:28:12 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/28 01:51:18 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/29 19:35:47 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,6 @@ t_env	*ft_get_env(t_env *env_list, char *name)
 	}
 	return (NULL);
 }
-/*
-void	handle_cd_errors(char *arg)
-{
-	if (arg[1])
-		print_error(ERROR_CD_DIRECTORY, 1);
-	else if ((arg[0] != '-' && arg[0] != '~'))
-	{
-		printf("arg: %s\n", arg);
-		(ERROR_CD_DIRECTORY, 1);
-	}
-}
-*/
 
 bool	can_execute(t_env *env_list, char *arg)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+         #
+#    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/11/26 16:37:35 by gcampos-         ###   ########.fr        #
+#    Updated: 2024/11/29 21:21:14 by fgomes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -I includes -I libft #-fsanitize=address
 LIBFT_PATH = libft
 LIBFT = -Llibft -lft
-SRC =	src/builtin/cd00.c \
+SRC =	src/builtin/builtin.c \
+		src/builtin/cd00.c \
 		src/builtin/cd01.c \
 		src/builtin/echo.c \
 		src/builtin/env.c \
@@ -27,7 +28,10 @@ SRC =	src/builtin/cd00.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c \
 		src/clean/clean.c \
-		src/error/error.c \
+		src/error/error00.c \
+		src/error/error01.c \
+		src/exec/execution.c \
+		src/exec/exec_utils.c \
 		src/heredoc/heredoc.c \
 		src/initialize/init.c \
 		src/loop/mini_loop.c \
@@ -36,6 +40,8 @@ SRC =	src/builtin/cd00.c \
 		src/parser/parseline.c \
 		src/parser/parsing.c \
 		src/parser/quotes.c \
+		src/signals/signal.c \
+		src/signals/signals.c \
 		src/utils/utils.c \
 		src/utils/utils2.c \
 		src/main.c

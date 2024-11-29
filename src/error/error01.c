@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd01.c                                             :+:      :+:    :+:   */
+/*   error01.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 16:00:55 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/11/29 19:37:42 by fgomes-c         ###   ########.fr       */
+/*   Created: 2024/11/29 20:25:27 by fgomes-c          #+#    #+#             */
+/*   Updated: 2024/11/29 21:20:17 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_env_vars(t_env *env_list, char *dir, int size)
+void	ft_error_digit(char *str, int status)
 {
-	ft_update_env(env_list, "OLDPWD=", dir, 1);
-	getcwd(dir, size);
-	ft_update_env(env_list, "PWD=", dir, 1);
-}
-
-void	handle_home_directory(t_env *env_list)
-{
-	t_env	*home;
-	
-	home = ft_get_env(env_list, "HOME");
-	if (home)
-		chdir(home->content + 5);
-	else
-		print_error("HOME not set", 1);
+	ft_printf("minishell: exit: %s: numeric argument required", str);
+	ft_putstr_fd("\n", STDERR);
+	g_exit_status = status;
+	return ;
 }
