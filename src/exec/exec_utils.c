@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcampos- <gcampos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:33:26 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/29 18:28:19 by gcampos-         ###   ########.fr       */
+/*   Updated: 2024/11/30 01:27:37 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ char	**ft_getenv(t_env *env)
 
 char	*find_path(char *cmd, char **envp, int count)
 {
-	char	*part_path;
-	char	*cmd_path;
-	char	**envp_path;
+	char		*part_path;
+	char		*cmd_path;
+	char		**envp_path;
 
 	while (!ft_strnstr(*envp, "PATH=", 5))
 		envp++;
@@ -86,7 +86,7 @@ char	*find_path(char *cmd, char **envp, int count)
 	free_array(envp_path);
 	if (cmd[0] == '/' && access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
-	// ft_error_cmds(cmd);
+	ft_error_path_cmds(cmd, 127);
 	return (NULL);
 }
 

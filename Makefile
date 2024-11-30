@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
+#    By: caliman <caliman@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/11/29 21:21:14 by fgomes-c         ###   ########.fr        #
+#    Updated: 2024/11/30 01:56:15 by caliman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC =	src/builtin/builtin.c \
 		src/builtin/echo.c \
 		src/builtin/env.c \
 		src/builtin/exit.c \
+		src/builtin/exit_free.c \
 		src/builtin/export00.c \
 		src/builtin/export01.c \
 		src/builtin/export02.c \

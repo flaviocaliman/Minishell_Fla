@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/29 21:51:52 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 01:57:10 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,13 @@ void		print_env_list(t_env *list);
 void		ft_env(t_env *env_list, t_organize *program);
 
 //builtin/exit.c
-void		free_and_exit(t_organize *pgr, int status);
-void		check_exit_args(char **args);
 int			ft_exit(t_organize *program, char *str);
+
+//builtin/exit_free.c
+void		free_and_exit(t_organize *pgr, int status);
+void		handle_exit_error(t_organize *program , char **args);
+void		handle_exit_success_args(t_organize *program , char **args);
+
 
 //builtin/export00.c
 int			get_var_len(char *var);
@@ -152,6 +156,7 @@ void		delete_list(t_env *list);
 void		free_array(char **array);
 void		free_organize(t_organize *program);
 int			size_without_quotes(char *input);
+void		free_program(t_organize *program);
 
 //error/error00.c
 void		print_error(char *cmd, int status);
@@ -162,6 +167,7 @@ void		ft_error_opt(char *str, int status);
 
 //error/error01.c
 void		ft_error_digit(char *str, int status);
+void		ft_error_path_cmds(char *cmd, int status);
 
 //exec/execution.c
 void		exec_one_cmd(t_program *mini, t_organize *program);

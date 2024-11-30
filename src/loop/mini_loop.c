@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/29 22:24:40 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 01:37:53 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,16 @@ int	mini_loop(t_program *mini)
 			}
 			printf("cmds: %s\n", program->cmds);
 			if (mini->pipes > 0)
+			{
+				free_ptr(input);
 				executor(program, mini);
+			}
 			else
+			{
+				
+				free_ptr(input);
 				exec_one_cmd(mini, program);
+			}
 			free_organize(program);
 			free_ptr(input);
 		}

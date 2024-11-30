@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error01.c                                          :+:      :+:    :+:   */
+/*   exit_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 20:25:27 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/11/30 01:19:47 by caliman          ###   ########.fr       */
+/*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
+/*   Updated: 2024/11/30 01:53:59 by caliman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_error_digit(char *str, int status)
+void	free_and_exit(t_organize *pgr, int status)
 {
-	ft_printf("minishell: exit: %s: numeric argument required", str);
-	ft_putstr_fd("\n", STDERR);
-	g_exit_status = status;
-	return ;
+	free_organize(pgr);
+	exit(status);
 }
-void	ft_error_path_cmds(char *cmd, int status)
+
+void	handle_exit_error(t_organize *program , char **args)
 {
-	ft_putstr_fd(cmd, STDERR);
-	ft_putstr_fd(": command not found", STDERR);
-	ft_putstr_fd("\n", STDERR);
-	g_exit_status = status;
-	return ;
+	ft_putstr_fd("exit\n", STDERR);
+	print_error(ERROR_EXIT_ARGS, 1);
+	free_array(args);
+	free_organize(program);
+}
+
+void	handle_exit_success_args(t_organize *program , char **args)
+{
+	ft_putstr_fd("exit\n", STDERR);
+	ft_error_digit(args[0], 2);
+	free_array(args);
+	free_organize(program);
 }
