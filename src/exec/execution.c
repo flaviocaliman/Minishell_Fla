@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:38:43 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:46:24 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:59:06 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,22 @@ void	reset_fds(t_organize *program)
 
 void	executor(t_organize *program, t_program *mini)
 {
-    t_organize *tmp = program;
-    int 		fd[2];
-    // int 		in_fd = STDIN; // Entrada inicial, geralmente stdin
+	t_organize	*tmp;
+	pid_t		pid;
+	int			fd[2];
 	int			last;
-    pid_t 		pid;
-	
+	//int		in_fd = STDIN; // Entrada inicial, geralmente stdin
 
 	//fd = malloc(sizeof(int *) * 2);
+	tmp = program;
 	last = ft_list_size(program);
-    while (tmp)
-    {
-        if (tmp->next && pipe(fd) == -1)
-        {
-            perror("pipe");
-            exit(EXIT_FAILURE);
-        }
+	while (tmp)
+	{
+		if (tmp->next && pipe(fd) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
 		{
@@ -170,8 +170,6 @@ void	executor(t_organize *program, t_program *mini)
 			close(fd[1]); // Fecha escrita do pipe no pai
 		}
 		// reset_fds(program); // Reseta os descritores de arquivo para stdin e stdout
-        tmp = tmp->next; // Avança para o próximo comando
-    }
+		tmp = tmp->next; // Avança para o próximo comando
+	}
 }
-
-

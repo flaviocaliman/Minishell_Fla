@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:28:12 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/29 19:35:47 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:39:38 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_update_env(t_env *env_list, char *name, char *value, int replace)
 t_env	*ft_get_env(t_env *env_list, char *name)
 {
 	t_env	*tmp;
-	
+
 	tmp = env_list;
 	while (tmp)
 	{

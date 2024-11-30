@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:33:26 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:45:05 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:49:36 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_list_size(t_organize *program)
 {
-	int		i;
 	t_organize	*tmp;
+	int			i;
 
 	i = 0;
 	tmp = program;

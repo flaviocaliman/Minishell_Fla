@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:55:54 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:36:54 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ extern int	g_exit_status;
 typedef struct s_var
 {
 	int		i;
-	int 	j;
+	int		j;
 	int		k;
 	int		inside;
 	int		size;
-	char 	c;
+	char	c;
 	char	*new_str;
-	char 	*str;
-} t_var;
+	char	*str;
+}	t_var;
 
 typedef struct s_organize
 {
@@ -102,7 +102,7 @@ int			run_builtin(t_program *mini, t_organize *program);
 //builtin/cd00.c
 void		ft_cd(t_env *env_list, t_organize *program);
 t_env		*ft_get_env(t_env *env_list, char *name);
-void		ft_update_env(t_env *env_list, char *name, char *value, int replace);
+void		ft_update_env(t_env *env_list, char *name, char *value, int repl);
 
 //builtin/cd01.c
 void		update_env_vars(t_env *env_list, char *dir, int size);
@@ -156,7 +156,6 @@ void		delete_list(t_env *list);
 void		free_array(char **array);
 void		free_organize(t_organize *program);
 int			size_without_quotes(char *input);
-
 
 //error/error00.c
 void		print_error(char *cmd, int status);

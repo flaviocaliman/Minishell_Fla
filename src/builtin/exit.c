@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/30 14:17:01 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:41:55 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	arg_is_nbr(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!arg)
@@ -63,7 +63,7 @@ void	handle_single_arg_exit(t_organize *program, char **args)
 	free_organize(program);
 }
 
-int ft_exit(t_organize *program, char *str)
+int	ft_exit(t_organize *program, char *str)
 {
 	char	**args;
 

@@ -6,12 +6,12 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 18:00:51 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/20 22:00:35 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:48:04 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 void	delete_node(t_env *node)
 {
 	free(node->content);
@@ -44,7 +44,7 @@ void	add_env_node(t_env *node, t_env *new)
 		last = last->next;
 	last->next = new;
 	new->prev = last;
-	// if(!ft_strcmp(last->content, "PATH")   /// isso e para apagar um node do ''''unset''''
+	// if(!ft_strcmp(last->content, "PATH")
 	// 	list->prev->next = list->next;
 	// 	free(list->content);
 	// 	free(list);
@@ -91,3 +91,4 @@ t_env	*init_env(char **env)
 	}
 	return (head);
 }
+*/

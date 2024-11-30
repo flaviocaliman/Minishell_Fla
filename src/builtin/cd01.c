@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:00:55 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/11/29 19:37:42 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:39:52 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	update_env_vars(t_env *env_list, char *dir, int size)
 void	handle_home_directory(t_env *env_list)
 {
 	t_env	*home;
-	
+
 	home = ft_get_env(env_list, "HOME");
 	if (home)
 		chdir(home->content + 5);

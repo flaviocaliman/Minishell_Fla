@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 19:25:00 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/29 21:45:01 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:44:56 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	free_array(char **array)
 		free(array[i]);
 	free(array);
 }
+
 void	free_program(t_program *mini)
 {
 	t_program	*tmp;
