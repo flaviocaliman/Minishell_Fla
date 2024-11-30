@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:15:33 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/11/29 22:21:32 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 15:00:24 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int	run_builtin(t_program *mini, t_organize *program)
 		handle_exit(exit_return);
 	}
 	else
-		ft_error_cmds(program, 127);
+		ft_error_cmds(program->cmds, 127);
 	return (0);
 }
