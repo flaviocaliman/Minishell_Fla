@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:33:26 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 01:27:37 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/30 13:45:05 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ char	**ft_getenv(t_env *env)
 
 char	*find_path(char *cmd, char **envp, int count)
 {
-	char		*part_path;
-	char		*cmd_path;
-	char		**envp_path;
+	char	*part_path;
+	char	*cmd_path;
+	char	**envp_path;
 
 	while (!ft_strnstr(*envp, "PATH=", 5))
 		envp++;
@@ -86,7 +86,7 @@ char	*find_path(char *cmd, char **envp, int count)
 	free_array(envp_path);
 	if (cmd[0] == '/' && access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
-	ft_error_path_cmds(cmd, 127);
+	ft_error_path_cmd(cmd, 127);
 	return (NULL);
 }
 
@@ -106,11 +106,14 @@ int	exec_cmd(char *cmd, char *args, t_env *envp)
 	env = ft_getenv(envp);
 	path = find_path(cmd, env, -1);
 	if (!path)
+	{
+		free_array(cmd_split);
+		free_array(env);
 		free_ptr(path);
-	ft_printf("cmd: %s\n", cmd);
+		return (0);
+	}
 	if (execve(path, cmd_split, env) == -1)
 		free_ptr(path);
-	//free_ptr(path);
 	free_array(cmd_split);
 	return (0);
 }

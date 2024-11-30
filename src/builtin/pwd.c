@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:39:16 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/27 19:12:12 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 11:43:56 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	ft_pwd(t_organize *program)
 {
 	char	*path;
 
-	if (program->cmds[3])
-	{
-		ft_error_cmds(program, 127);
-		return ;
-	}
+	// if (program->cmds[3])
+	// {
+	// 	ft_error_cmds(program, 127);
+	// 	return ;
+	// }
 	if (program->args)
 	{
 		if (program->args[0] == '-')

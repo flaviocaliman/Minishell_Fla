@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caliman <caliman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:38:43 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 01:50:37 by caliman          ###   ########.fr       */
+/*   Updated: 2024/11/30 13:46:24 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec_one_cmd(t_program *mini, t_organize *program)
 
 int	is_builtin(char *command)
 {
-	if (ft_strncmp(command, "echo", 4) == 0)
+	if (ft_strcmp(command, "echo") == 0)// esta linha estava com ft_strncmp
 		return (1);
 	if (ft_strcmp(command, "cd") == 0)
 		return (1);

@@ -11,4 +11,10 @@ error ao entrar com comando que nao existe (ex: d), tem que inserir texto igual 
 3.
 minishell: $TEST (segmentation fault)
 
+4.
+< $TEST
+
+5.
+echoo (???????: command not found)
+
 */

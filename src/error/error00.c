@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:40:54 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/29 20:25:40 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/11/30 11:51:59 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	print_error(char *cmd, int status)
 	return ;
 }
 
-void	ft_error_cmds(t_organize *program, int status)
+void	ft_error_cmds(char *cmds, int status)
 {
-	ft_putstr_fd(program->cmds, STDERR);
+	ft_putstr_fd(cmds, STDERR);
 	ft_putstr_fd(": command not found", STDERR);
 	ft_putstr_fd("\n", STDERR);
 	g_exit_status = status;
