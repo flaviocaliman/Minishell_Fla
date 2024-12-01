@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 15:36:54 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:22:15 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ t_env		*ft_get_env(t_env *env_list, char *name);
 void		ft_update_env(t_env *env_list, char *name, char *value, int repl);
 
 //builtin/cd01.c
-void		update_env_vars(t_env *env_list, char *dir, int size);
-void		handle_home_directory(t_env *env_list);
+// void		update_env_vars(t_env *env_list, char *dir, int size);
+// void		handle_home_directory(t_env *env_list);
 
 //builtin/echo.c
 void		ft_echo(t_organize *program);

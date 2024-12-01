@@ -6,7 +6,7 @@
 #    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/11/30 13:22:19 by fgomes-c         ###   ########.fr        #
+#    Updated: 2024/12/01 13:22:28 by fgomes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,6 @@ LIBFT_PATH = libft
 LIBFT = -Llibft -lft
 SRC =	src/builtin/builtin.c \
 		src/builtin/cd00.c \
-		src/builtin/cd01.c \
 		src/builtin/echo.c \
 		src/builtin/env.c \
 		src/builtin/exit.c \

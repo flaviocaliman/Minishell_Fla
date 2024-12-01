@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:39:34 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:04:58 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:54:17 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_empty_redir(char **str)
 			|| (ft_strncmp(str[i], "<", 1) == 0 && !str[i + 1])
 			|| (ft_strncmp(str[i], "<<", 2) == 0 && !str[i + 1]))
 		{
-			ft_putendl_fd("Syntax error near unexpected token", STDERR);
+			print_error("Syntax error near unexpected token", 258); //verificar texto e codigo de erro (2 ou 258?)
 			return (1);
 		}
 		if ((ft_strncmp(str[i], ">", 1) == 0 && is_token(str[i + 1][0]))
@@ -59,7 +59,7 @@ int	check_empty_redir(char **str)
 			|| (ft_strncmp(str[i], "<", 1) == 0 && is_token(str[i + 1][0]))
 			|| (ft_strncmp(str[i], "<<", 2) == 0 && is_token(str[i + 1][0])))
 		{
-			ft_putendl_fd("Syntax error near unexpected token", STDERR);
+			print_error("Syntax error near unexpected token", 258); //verificar texto e codigo de erro (2 ou 258?)
 			return (1);
 		}
 		i++;
@@ -143,7 +143,7 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		{
 			if (input[i + 1] == NULL)
 			{
-				ft_putendl_fd("Syntax error near unexpected token `|'", STDERR);
+				print_error("syntax error near unexpected token '|'", 258); //verificar texto e codigo de erro (2 ou 258?)
 				free_array(input);
 				return (1);
 			}
@@ -177,7 +177,7 @@ int	parse_organize(t_organize *program, char *str, t_env *env)
 {
 	if (inside_quotes(str, ft_strlen(str)) != 0)
 	{
-		ft_putendl_fd("minishell: syntax error with open quotes", STDERR);
+		print_error("syntax error with open quotes", 258); //verificar texto e codigo de erro (2 ou 258?)
 		return (1);
 	}
 	printf("user_input: %s\n", str);

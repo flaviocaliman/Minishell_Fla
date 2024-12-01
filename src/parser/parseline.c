@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 15:24:31 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:00:57 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:48:34 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ bool	duplicates(char *str)
 	{
 		if (str[i] == '|' && str[i + 1] == '|' && inside_quotes(str, i) == 0)
 		{
-			ft_printf("minishell: syntax error near unexpected token `||'\n");
+			print_error("syntax error near unexpected token '||'", 258);//codigo de erro 258
 			return (true);
 		}
 		if (str[i] == '&' && str[i + 1] == '&' && inside_quotes(str, i) == 0)
 		{
-			ft_printf("minishell: syntax error near unexpected token `&&'\n");
+			print_error("syntax error near unexpected token '&&'", 258); //codigo de erro 258
 			return (true);
 		}
 	}

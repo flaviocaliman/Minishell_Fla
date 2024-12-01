@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:28:12 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/30 15:39:38 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:21:58 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ void	ft_update_env(t_env *env_list, char *name, char *value, int replace)
 	}
 }
 
+void	update_env_vars(t_env *env_list, char *dir, int size)
+{
+	ft_update_env(env_list, "OLDPWD=", dir, 1);
+	getcwd(dir, size);
+	ft_update_env(env_list, "PWD=", dir, 1);
+}
+
 t_env	*ft_get_env(t_env *env_list, char *name)
 {
 	t_env	*tmp;
@@ -52,7 +59,7 @@ bool	can_execute(t_env *env_list, char *arg)
 	t_env	*home;
 
 	oldpwd = ft_get_env(env_list, "OLDPWD");
-	if (arg)
+	if (arg && arg[0] != '~')
 	{
 		if (ft_strlen(arg) == 1 && arg[0] == '-')
 		{
@@ -75,7 +82,6 @@ bool	can_execute(t_env *env_list, char *arg)
 	return (false);
 }
 
-// qunado entro com o comando cd - 2 vezes ele printa a 
 void	ft_cd(t_env *env_list, t_organize *program)
 {
 	char	dir[PATH_MAX];
@@ -88,11 +94,13 @@ void	ft_cd(t_env *env_list, t_organize *program)
 	}
 	if (!can_execute(env_list, program->args))
 	{
-		if (!program->args || ft_strcmp(program->args, "~") == 0)
-		{
-			handle_home_directory(env_list);
-			return ;
-		}
+		// printf("program->args: %s\n", program->args);
+		// if (!program->args || ft_strcmp(program->args, "~") == 0)
+		// {
+		// 	printf("ENTREI CD\n");
+		// 	handle_home_directory(env_list);
+		// 	return ;
+		// }
 		ft_error_dir(program->args, 1);
 		return ;
 	}
