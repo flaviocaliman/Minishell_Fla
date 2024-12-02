@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:39:34 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/12/01 13:54:17 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 23:16:28 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_empty_redir(char **str)
 			|| (ft_strncmp(str[i], "<", 1) == 0 && !str[i + 1])
 			|| (ft_strncmp(str[i], "<<", 2) == 0 && !str[i + 1]))
 		{
-			print_error("Syntax error near unexpected token", 258); //verificar texto e codigo de erro (2 ou 258?)
+			print_error("Syntax error near unexpected token", 2); //verificar texto e codigo de erro (2 ou 258?)
 			return (1);
 		}
 		if ((ft_strncmp(str[i], ">", 1) == 0 && is_token(str[i + 1][0]))
@@ -59,7 +59,7 @@ int	check_empty_redir(char **str)
 			|| (ft_strncmp(str[i], "<", 1) == 0 && is_token(str[i + 1][0]))
 			|| (ft_strncmp(str[i], "<<", 2) == 0 && is_token(str[i + 1][0])))
 		{
-			print_error("Syntax error near unexpected token", 258); //verificar texto e codigo de erro (2 ou 258?)
+			print_error("Syntax error near unexpected token", 2); //verificar texto e codigo de erro (2 ou 258?)
 			return (1);
 		}
 		i++;
@@ -115,6 +115,17 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		if (ft_strcmp(input[i], "<") == 0 && input[i + 1])
 		{
 			i++;
+			if (access(input[i], F_OK) != 0)
+			{
+				print_error("No such file or directory", 2); //verificar texto e codigo de erro (2 ou 258?)
+				free_array(input);
+				return (1);
+			}
+			if (tmp->fd_in != -1)
+			{
+				close(tmp->fd_in);
+				tmp->fd_in = -1;
+			}
 			input[i] = remove_quotes(input[i]);
 			tmp->fd_in = open(input[i], O_RDONLY);
 			printf("input_file[%d]: %s\n", tmp->list_pos, input[i]);
@@ -122,12 +133,22 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		else if (ft_strcmp(input[i], "<<") == 0 && input[i + 1])
 		{
 			i++;
+			if (tmp->fd_in != -1)
+			{
+				close(tmp->fd_in);
+				tmp->fd_in = -1;
+			}
 			tmp->fd_in = heredoc(input[i], env);
-			printf("heredoc_dlm[%d]: %s\n", tmp->list_pos, input[i]);
+			printf("fd_in[%d]: %d\n", tmp->list_pos, tmp->fd_in);
 		}
 		else if (ft_strcmp(input[i], ">") == 0 && input[i + 1])
 		{
 			i++;
+			if (tmp->fd_out != -1)
+			{
+				close(tmp->fd_out);
+				tmp->fd_out = -1;
+			}
 			input[i] = remove_quotes(input[i]);
 			tmp->fd_out = open(input[i], O_RDWR | O_CREAT | O_TRUNC, 0644);
 			printf("output_file[%d]: %s\n", tmp->list_pos, input[i]);
@@ -135,6 +156,11 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		else if (ft_strcmp(input[i], ">>") == 0 && input[i + 1])
 		{
 			i++;
+			if (tmp->fd_out != -1)
+			{
+				close(tmp->fd_out);
+				tmp->fd_out = -1;
+			}
 			input[i] = remove_quotes(input[i]);
 			tmp->fd_out = open(input[i], O_RDWR | O_CREAT | O_APPEND, 0644);
 			printf("append_file[%d]: %s\n", tmp->list_pos, input[i]);
@@ -143,7 +169,7 @@ int	process_input(t_organize *program, char **str, t_env *env)
 		{
 			if (input[i + 1] == NULL)
 			{
-				print_error("syntax error near unexpected token '|'", 258); //verificar texto e codigo de erro (2 ou 258?)
+				print_error("syntax error near unexpected token '|'", 2); //verificar texto e codigo de erro (2 ou 258?)
 				free_array(input);
 				return (1);
 			}
@@ -177,7 +203,7 @@ int	parse_organize(t_organize *program, char *str, t_env *env)
 {
 	if (inside_quotes(str, ft_strlen(str)) != 0)
 	{
-		print_error("syntax error with open quotes", 258); //verificar texto e codigo de erro (2 ou 258?)
+		print_error("syntax error with open quotes", 2); //verificar texto e codigo de erro (2 ou 258?)
 		return (1);
 	}
 	printf("user_input: %s\n", str);

@@ -6,35 +6,74 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:38:43 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 17:24:33 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 23:29:23 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_one_cmd(t_program *mini, t_organize *program)
+void	exec_one_cmd(t_program *mini, t_organize *program, int fd1, int fd2)
 {
+	pid_t	pid;
+	
 	if (!program->cmds)
 		return ;
 	if (program->fd_in != -1)
 	{
 		dup2(program->fd_in, STDIN);
-		// close(program->fd_in);
+		close(program->fd_in);
 	}
 	if (program->fd_out != -1)
 	{
 		dup2(program->fd_out, STDOUT);
-		// close(program->fd_out);
+		close(program->fd_out);
 	}
 	if (is_builtin(program->cmds))
 		run_builtin(mini, program);
 	else
-		exec_cmd(program->cmds, program->args, mini->env_list);
+	{
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		if (pid == 0)
+		{
+			if (!exec_cmd(program->cmds, program->args, mini->env_list))
+			{
+				perror("execve");
+				free_organize(program);
+				delete_list(mini->env_list);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			waitpid(pid, NULL, 0);
+			// if (program->fd_in != -1)
+			// {
+			// 	dup2(STDIN, program->fd_in);
+			// 	close(program->fd_in);
+			// }
+			// if (program->fd_out != -1)
+			// {
+			// 	dup2(STDOUT, program->fd_out);
+			// 	close(program->fd_out);
+			// }
+			// free_organize(program);
+			// free_ptr(program);
+		}
+	}
+	dup2(fd1, STDIN_FILENO);
+    dup2(fd2, STDOUT_FILENO);
+	close(fd1);
+	close(fd2);
 }
 
 int	is_builtin(char *command)
 {
-	if (ft_strcmp(command, "echo") == 0)// esta linha estava com ft_strncmp
+	if (ft_strcmp(command, "echo") == 0)
 		return (1);
 	if (ft_strcmp(command, "cd") == 0)
 		return (1);

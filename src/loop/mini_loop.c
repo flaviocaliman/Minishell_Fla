@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:01:15 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:53:39 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 23:27:53 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	reset_fd_signals(int const fd, int const fd1)
 	dup2(fd1, STDOUT_FILENO);
 }
 
-int	mini_loop(t_program *mini)
+int	mini_loop(t_program *mini, int fd1, int fd2)
 {
 	t_organize	*program;
 	char		*input;
@@ -27,7 +27,7 @@ int	mini_loop(t_program *mini)
 	while (1)
 	{
 		program = NULL;
-		// reset_fd_signals(fd1, fd2);
+		reset_fd_signals(fd1, fd2);
 		input = readline("minishell$ ");
 		if (!input)
 		{
@@ -43,12 +43,13 @@ int	mini_loop(t_program *mini)
 				free_ptr(input);
 				continue ;
 			}
+			free_ptr(input);
 			if (mini->pipes > 0)
 				executor(program, mini);
 			else
-				exec_one_cmd(mini, program);
+				exec_one_cmd(mini, program, fd1, fd2);
 			free_organize(program);
-			free_ptr(input);
+			// delete_list(mini->env_list);
 		}
 	}
 	rl_clear_history();

@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/12/01 13:22:15 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 23:27:42 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void		ft_error_digit(char *str, int status);
 void		ft_error_path_cmd(char *cmd, int status);
 
 //exec/execution.c
-void		exec_one_cmd(t_program *mini, t_organize *program);
+void		exec_one_cmd(t_program *mini, t_organize *program, int fd1, int fd2);
 int			is_builtin(char *command);
 void		redir_pipes(t_organize *program);
 void		executor(t_organize *program, t_program *mini);
@@ -185,7 +185,7 @@ int			heredoc(char *input, t_env *env);
 t_organize	*init_organize(char *input, t_program *mini);
 
 //loop/loop.c
-int			mini_loop(t_program *mini);
+int			mini_loop(t_program *mini, int fd1, int fd2);
 
 //parser/new_split.c
 char		**ft_new_split(char *s, char c);

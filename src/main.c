@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:32:46 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 15:38:46 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 23:24:05 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	g_exit_status;
 int	main(int argc, char **argv, char **env)
 {
 	t_program	mini;
-	// int			fd1;
-	// int			fd2;
-	// fd1 = dup(STDIN);
-	// fd2 = dup(STDOUT);
+	int			fd1;
+	int			fd2;
+	fd1 = dup(STDIN);
+	fd2 = dup(STDOUT);
 	if (argc != 1 || argv[1] || !env || !*env)
 	{
 		if (argc != 1 || argv[1])
@@ -33,9 +33,9 @@ int	main(int argc, char **argv, char **env)
 	//init_struct(&mini, env);
 	mini.env_list = init_env(env);
 	update_sh_lvl(mini.env_list);
-	mini_loop(&mini);
+	mini_loop(&mini, fd1, fd2);
 	delete_list(mini.env_list);
-	// close(fd1);
-	// close(fd2);
+	close(fd1);
+	close(fd2);
 	return (g_exit_status);
 }

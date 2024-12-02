@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:33:26 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/11/30 15:49:36 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 22:27:12 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	exec_cmd(char *cmd, char *args, t_env *envp)
 	{
 		free_array(cmd_split);
 		free_array(env);
-		free_ptr(path);
+		// free_ptr(path);
 		return (0);
 	}
 	if (execve(path, cmd_split, env) == -1)
