@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:37:01 by caliman           #+#    #+#             */
-/*   Updated: 2024/12/02 21:24:10 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:24:55 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_env(t_env *env_list, t_organize *program)
 		ft_error_cmds(program->cmds, 127);
 	else if (program->args)
 	{
-		print_error(ERROR_ENV_ARGS, 1);
+		ft_error_env_dir(program->args, 1);
 	}
 	else
 		print_env_list(env_list);

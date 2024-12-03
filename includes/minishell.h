@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/12/02 23:27:42 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:25:40 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define ERROR_CD_DIRECTORY "cd: no such file or directory"
 # define ERROR_CD_OPTION "invalid option"
 # define ERROR_ENV_ARGS "env: dont accept arguments"
+# define ERROR_ENV_DIRECTORY "no such file or directory"
 # define ERROR_EXIT_ARGS "exit: too many arguments"	
 # define ERROR_EXIT_DIGIT "exit: numeric argument required"
 
@@ -167,6 +168,7 @@ void		ft_error_opt(char *str, int status);
 //error/error01.c
 void		ft_error_digit(char *str, int status);
 void		ft_error_path_cmd(char *cmd, int status);
+void		ft_error_env_dir(char *dir, int status);
 
 //exec/execution.c
 void		exec_one_cmd(t_program *mini, t_organize *program, int fd1, int fd2);
