@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:15:33 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/12/02 21:39:12 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 23:14:53 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handle_exit(int exit_return)
 	}
 }
 
-int	run_builtin(t_program *mini, t_organize *program)
+int	run_builtin(t_program *mini, t_organize *program, int fd1, int fd2)
 {
 	int	exit_return;
 
@@ -42,6 +42,8 @@ int	run_builtin(t_program *mini, t_organize *program)
 	else if (ft_strcmp(program->cmds, "exit") == 0)
 	{
 		exit_return = ft_exit(program, program->args);
+		close(fd1);
+		close(fd2);
 		delete_list(mini->env_list);
 		handle_exit(exit_return);
 	}

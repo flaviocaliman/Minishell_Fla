@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:38:25 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/30 15:41:55 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 23:17:38 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int	ft_exit(t_organize *program, char *str)
 	args = ft_new_split(str, ' ');
 	if (arg_is_nbr(args[0]) && args[1])
 	{
-		handle_exit_error(program, args);
+		handle_exit_error();
+		free_array(args);
+		// free_organize(program);
 		return (EXIT_FAILURE);
 	}
 	else if (args[1])

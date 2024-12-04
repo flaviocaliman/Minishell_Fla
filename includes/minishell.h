@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/12/03 18:25:40 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 23:07:18 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef struct s_program
 }		t_program;
 
 //builtin/builtin.c
-int			run_builtin(t_program *mini, t_organize *program);
+int			run_builtin(t_program *mini, t_organize *program, int fd1, int fd2);
 
 //builtin/cd00.c
 void		ft_cd(t_env *env_list, t_organize *program);
@@ -125,7 +125,7 @@ int			ft_exit(t_organize *program, char *str);
 
 //builtin/exit_free.c
 void		free_and_exit(t_organize *pgr, int status);
-void		handle_exit_error(t_organize *program, char **args);
+void		handle_exit_error();
 void		handle_exit_success_args(t_organize *program, char **args);
 
 //builtin/export00.c
@@ -169,11 +169,13 @@ void		ft_error_opt(char *str, int status);
 void		ft_error_digit(char *str, int status);
 void		ft_error_path_cmd(char *cmd, int status);
 void		ft_error_env_dir(char *dir, int status);
+void		ft_error_exp_equal(char *dir, int status);
 
 //exec/execution.c
 void		exec_one_cmd(t_program *mini, t_organize *program, int fd1, int fd2);
 int			is_builtin(char *command);
-void		redir_pipes(t_organize *program);
+void		reset_fds(int fd1, int fd2, int status);
+// void		redir_pipes(t_organize *program);
 void		executor(t_organize *program, t_program *mini);
 
 //exec/exec_utils.c

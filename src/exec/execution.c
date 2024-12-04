@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:38:43 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/12/02 23:29:23 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 21:58:23 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exec_one_cmd(t_program *mini, t_organize *program, int fd1, int fd2)
 		close(program->fd_out);
 	}
 	if (is_builtin(program->cmds))
-		run_builtin(mini, program);
+		run_builtin(mini, program, fd1, fd2);
 	else
 	{
 		pid = fork();
@@ -42,33 +42,16 @@ void	exec_one_cmd(t_program *mini, t_organize *program, int fd1, int fd2)
 		{
 			if (!exec_cmd(program->cmds, program->args, mini->env_list))
 			{
-				perror("execve");
 				free_organize(program);
 				delete_list(mini->env_list);
+				reset_fds(fd1, fd2, 1);
 				exit(EXIT_FAILURE);
 			}
 		}
 		else
-		{
 			waitpid(pid, NULL, 0);
-			// if (program->fd_in != -1)
-			// {
-			// 	dup2(STDIN, program->fd_in);
-			// 	close(program->fd_in);
-			// }
-			// if (program->fd_out != -1)
-			// {
-			// 	dup2(STDOUT, program->fd_out);
-			// 	close(program->fd_out);
-			// }
-			// free_organize(program);
-			// free_ptr(program);
-		}
 	}
-	dup2(fd1, STDIN_FILENO);
-    dup2(fd2, STDOUT_FILENO);
-	close(fd1);
-	close(fd2);
+	reset_fds(fd1, fd2, 0);
 }
 
 int	is_builtin(char *command)
@@ -104,17 +87,14 @@ void	redir_pipes(t_organize *program)
 	}
 }
 
-void	reset_fds(t_organize *program)
+void	reset_fds(int fd1, int fd2, int status)
 {
-	if (program->fd_in != -1)
+	dup2(fd1, STDIN_FILENO);
+	dup2(fd2, STDOUT_FILENO);
+	if (status == 1)
 	{
-		dup2(STDIN, program->fd_in);
-		close(program->fd_in);
-	}
-	if (program->fd_out != -1)
-	{
-		dup2(STDOUT, program->fd_out);
-		close(program->fd_out);
+		close(fd1);
+		close(fd2);
 	}
 }
 
@@ -179,7 +159,7 @@ void	chield_process(t_organize *tmp, t_program *mini, int fd[], int last)
 	if (is_builtin(tmp->cmds))
 	{
 		printf("estou no builtin\n");
-		run_builtin(mini, tmp);
+		run_builtin(mini, tmp, fd[0], fd[1]);
 		exit(0); // Encerra o processo filho após executar o builtin
 	}
 	else
