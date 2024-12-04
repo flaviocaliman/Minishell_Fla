@@ -6,7 +6,7 @@
 #    By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/14 18:12:41 by gcampos-          #+#    #+#              #
-#    Updated: 2024/12/02 22:57:39 by fgomes-c         ###   ########.fr        #
+#    Updated: 2024/12/04 23:18:23 by fgomes-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC =	src/builtin/builtin.c \
 		src/error/error00.c \
 		src/error/error01.c \
 		src/exec/execution.c \
-		src/exec/exec_utils.c \
+		src/exec/exec_utils00.c \
 		src/heredoc/heredoc.c \
 		src/initialize/init.c \
 		src/loop/mini_loop.c \

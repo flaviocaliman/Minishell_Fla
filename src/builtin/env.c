@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:37:01 by caliman           #+#    #+#             */
-/*   Updated: 2024/12/03 18:24:55 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/04 22:53:11 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_env	*init_env(char **env)
 		list->content = ft_strdup(env[i]);
 		list = list->next;
 	}
-	// delete_list(list);
 	return (head);
 }
 

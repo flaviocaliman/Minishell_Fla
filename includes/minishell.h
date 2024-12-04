@@ -6,15 +6,15 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:26:57 by gcampos-          #+#    #+#             */
-/*   Updated: 2024/12/03 23:07:18 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/04 23:01:37 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h> //functions: read, write, close, fork, execve, chdir, pipe, dup2, dup, waitpid, wait, wait3, wait4, signal, kill, exit	
-# include <stdlib.h> //functions: malloc, free, exit, execve, getenv, realpath, system
+# include <unistd.h> //functions: read, write, close, fork, execve, chdir...
+# include <stdlib.h> //functions: malloc, free, exit, execve, getenv...
 # include <stdio.h> //functions: printf, perror, strerror
 # include <sys/wait.h> //functions: waitpid, wait, wait3, wait4
 # include <sys/stat.h> //functions: stat, lstat, fstat
@@ -105,10 +105,6 @@ void		ft_cd(t_env *env_list, t_organize *program);
 t_env		*ft_get_env(t_env *env_list, char *name);
 void		ft_update_env(t_env *env_list, char *name, char *value, int repl);
 
-//builtin/cd01.c
-// void		update_env_vars(t_env *env_list, char *dir, int size);
-// void		handle_home_directory(t_env *env_list);
-
 //builtin/echo.c
 void		ft_echo(t_organize *program);
 
@@ -125,15 +121,15 @@ int			ft_exit(t_organize *program, char *str);
 
 //builtin/exit_free.c
 void		free_and_exit(t_organize *pgr, int status);
-void		handle_exit_error();
+void		handle_exit_error(void);
 void		handle_exit_success_args(t_organize *program, char **args);
 
 //builtin/export00.c
 int			get_var_len(char *var);
 void		update_env_node(t_env *tmp, char *var);
-void		update_or_add_env_node(t_env **env_list, char *var, int replace);
-void		handle_export_args(t_env *env_list, char **args);
-void		ft_export(t_env *env_list, char *input);
+void		update_or_add_env_node(t_program *mini, char *var, int replace);
+void		handle_export_args(t_program *mini, char **args);
+void		ft_export(t_program *mini, char *input);
 
 //builtin/export01.c
 void		sort_env_array(char **env_array, int count);
@@ -172,11 +168,10 @@ void		ft_error_env_dir(char *dir, int status);
 void		ft_error_exp_equal(char *dir, int status);
 
 //exec/execution.c
-void		exec_one_cmd(t_program *mini, t_organize *program, int fd1, int fd2);
+void		exec_one_cmd(t_program *mini, t_organize *pgm, int fd1, int fd2);
 int			is_builtin(char *command);
 void		reset_fds(int fd1, int fd2, int status);
-// void		redir_pipes(t_organize *program);
-void		executor(t_organize *program, t_program *mini);
+void		exec_with_pipes(t_program *mini, t_organize *program);
 
 //exec/exec_utils.c
 int			ft_list_size(t_organize *program);

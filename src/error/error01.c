@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:25:27 by fgomes-c          #+#    #+#             */
-/*   Updated: 2024/12/03 22:36:16 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/04 23:10:20 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_error_path_cmd(char *cmd, int status)
 	g_exit_status = status;
 	return ;
 }
+
 void	ft_error_env_dir(char *dir, int status)
 {
 	ft_putstr_fd("env: '", STDERR);

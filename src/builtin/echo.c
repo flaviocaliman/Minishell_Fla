@@ -6,14 +6,11 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:28:50 by caliman           #+#    #+#             */
-/*   Updated: 2024/11/30 15:40:56 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/04 22:53:03 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Função que exibe uma string na saída padrão. Com ou sem
-// quebra de linha (-n).
 
 void	print_args(char *args, int n)
 {
@@ -41,9 +38,9 @@ void	print_args(char *args, int n)
 
 void	ft_echo(t_organize *program)
 {
-	int			n;
-	int			i;
-	char		*str;
+	int		n;
+	int		i;
+	char	*str;
 
 	str = program->args;
 	n = 0;

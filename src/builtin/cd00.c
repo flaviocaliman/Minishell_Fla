@@ -6,7 +6,7 @@
 /*   By: fgomes-c <fgomes-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 23:28:12 by caliman           #+#    #+#             */
-/*   Updated: 2024/12/01 13:21:58 by fgomes-c         ###   ########.fr       */
+/*   Updated: 2024/12/04 22:51:42 by fgomes-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,6 @@ void	ft_cd(t_env *env_list, t_organize *program)
 	}
 	if (!can_execute(env_list, program->args))
 	{
-		// printf("program->args: %s\n", program->args);
-		// if (!program->args || ft_strcmp(program->args, "~") == 0)
-		// {
-		// 	printf("ENTREI CD\n");
-		// 	handle_home_directory(env_list);
-		// 	return ;
-		// }
 		ft_error_dir(program->args, 1);
 		return ;
 	}
